@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENLACE — 事前アンケート</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #2a2a2a;
+    --charcoal-light: #3d3d3d;
+    --charcoal-muted: #6b6b6b;
+    --rose-gold: #c9967a;
+    --rose-gold-light: #e8b49a;
+    --rose-gold-pale: #f5e8e0;
+    --cream: #faf8f5;
+    --white: #ffffff;
+    --border: rgba(201, 150, 122, 0.25);
+    --border-focus: rgba(201, 150, 122, 0.7);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 64px 24px 48px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--rose-gold);
+    margin: 32px auto 0;
+    opacity: 0.6;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 42px;
+    letter-spacing: 0.18em;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .logo span {
+    color: var(--rose-gold);
+  }
+
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--charcoal-muted);
+    text-transform: uppercase;
+  }
+
+  .event-info {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 28px;
+  }
+
+  .event-info span {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--rose-gold);
+    opacity: 0.8;
+  }
+
+  /* Form container */
+  .form-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+  .section:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--rose-gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  /* Input styles */
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--cream);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--border-focus);
+    background: rgba(201, 150, 122, 0.06);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--charcoal-muted);
+    font-size: 13px;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9967a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  select option {
+    background: var(--charcoal);
+    color: var(--cream);
+  }
+
+  textarea {
+    resize: none;
+    min-height: 90px;
+    line-height: 1.6;
+  }
+
+  /* Choice grid */
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .choice-grid.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .choice-item {
+    position: relative;
+  }
+
+  .choice-item input[type="radio"],
+  .choice-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .choice-item label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--cream);
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1.4;
+    min-height: 48px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .choice-item input:checked + label {
+    border-color: var(--rose-gold);
+    background: rgba(201, 150, 122, 0.12);
+    color: var(--rose-gold-light);
+  }
+
+  .choice-item label:hover {
+    border-color: rgba(201, 150, 122, 0.45);
+    background: rgba(201, 150, 122, 0.05);
+  }
+
+  /* Slider */
+  .slider-wrap {
+    padding: 8px 0;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 11px;
+    color: var(--charcoal-muted);
+    letter-spacing: 0.05em;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    outline: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--rose-gold);
+    cursor: pointer;
+    border: 2px solid var(--charcoal);
+    box-shadow: 0 0 0 1px var(--rose-gold);
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .slider-value {
+    text-align: center;
+    margin-top: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--rose-gold);
+    font-weight: 300;
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin-bottom: 48px;
+  }
+
+  /* Submit */
+  .submit-wrap {
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  .submit-btn {
+    display: inline-block;
+    padding: 16px 56px;
+    border: 1px solid var(--rose-gold);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--rose-gold);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+  }
+
+  .submit-btn:hover {
+    background: var(--rose-gold);
+    color: var(--charcoal);
+  }
+
+  .submit-note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--charcoal-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Success screen */
+  .success {
+    display: none;
+    text-align: center;
+    padding: 80px 24px;
+  }
+
+  .success.show { display: block; }
+
+  .success-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: var(--rose-gold);
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .success h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .success p {
+    font-size: 13px;
+    color: var(--charcoal-muted);
+    line-height: 1.8;
+  }
+
+  /* Helper text */
+  .helper {
+    font-size: 11px;
+    color: var(--charcoal-muted);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .required {
+    color: var(--rose-gold);
+    opacity: 0.7;
+    font-size: 10px;
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">EN<span>L</span>ACE</div>
+  <div class="tagline">事前アンケート</div>
+  <div class="event-info">
+    <span>2026.4.18</span>
+    <span>·</span>
+    <span>池袋</span>
+    <span>·</span>
+    <span>少人数開催</span>
+  </div>
+</div>
+
+<div class="form-container" id="formContainer">
+
+  <!-- 基本情報 -->
+  <div class="section">
+    <div class="section-label">01 — Basic</div>
+    <div class="section-title">お名前（ニックネームOK）<span class="required">必須</span></div>
+    <input type="text" id="name" placeholder="当日お呼びする名前を入力してください">
+  </div>
+
+  <div class="section">
+    <div class="section-label">02 — Basic</div>
+    <div class="section-title">年齢<span class="required">必須</span></div>
+    <div class="slider-wrap">
+      <div class="slider-labels">
+        <span>20代前半</span>
+        <span>20代後半</span>
+        <span>30代前半</span>
+        <span>30代後半〜</span>
+      </div>
+      <input type="range" id="ageRange" min="20" max="45" value="28" oninput="document.getElementById('ageVal').textContent=this.value">
+      <div class="slider-value"><span id="ageVal">28</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 自分のタイプ -->
+  <div class="section">
+    <div class="section-label">03 — About You</div>
+    <div class="section-title">自分はどんなタイプ？<span class="required">必須</span><br><small style="font-size:13px;color:var(--charcoal-muted);font-family:'Zen Kaku Gothic New'">（近いものをすべて選んでください）</small></div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="checkbox" id="t1" name="mytype" value="話すのが好き"><label for="t1">話すのが好き</label></div>
+      <div class="choice-item"><input type="checkbox" id="t2" name="mytype" value="聞くのが好き"><label for="t2">聞くのが好き</label></div>
+      <div class="choice-item"><input type="checkbox" id="t3" name="mytype" value="アクティブ派"><label for="t3">アクティブ派</label></div>
+      <div class="choice-item"><input type="checkbox" id="t4" name="mytype" value="インドア派"><label for="t4">インドア派</label></div>
+      <div class="choice-item"><input type="checkbox" id="t5" name="mytype" value="感情的"><label for="t5">感情的</label></div>
+      <div class="choice-item"><input type="checkbox" id="t6" name="mytype" value="論理的"><label for="t6">論理的</label></div>
+      <div class="choice-item"><input type="checkbox" id="t7" name="mytype" value="計画的"><label for="t7">計画的</label></div>
+      <div class="choice-item"><input type="checkbox" id="t8" name="mytype" value="自由奔放"><label for="t8">自由奔放</label></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04 — About You</div>
+    <div class="section-title">休日の過ごし方は？</div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="radio" id="w1" name="weekend" value="外で遊ぶ"><label for="w1">外で遊ぶ</label></div>
+      <div class="choice-item"><input type="radio" id="w2" name="weekend" value="家でのんびり"><label for="w2">家でのんびり</label></div>
+      <div class="choice-item"><input type="radio" id="w3" name="weekend" value="友達と過ごす"><label for="w3">友達と過ごす</label></div>
+      <div class="choice-item"><input type="radio" id="w4" name="weekend" value="1人の時間が好き"><label for="w4">1人の時間が好き</label></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 好きなタイプ -->
+  <div class="section">
+    <div class="section-label">05 — Ideal Type</div>
+    <div class="section-title">気になる人のタイプは？<span class="required">必須</span><br><small style="font-size:13px;color:var(--charcoal-muted);font-family:'Zen Kaku Gothic New'">（近いものをすべて選んでください）</small></div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="checkbox" id="i1" name="idealtype" value="話が面白い"><label for="i1">話が面白い</label></div>
+      <div class="choice-item"><input type="checkbox" id="i2" name="idealtype" value="聞き上手"><label for="i2">聞き上手</label></div>
+      <div class="choice-item"><input type="checkbox" id="i3" name="idealtype" value="落ち着いている"><label for="i3">落ち着いている</label></div>
+      <div class="choice-item"><input type="checkbox" id="i4" name="idealtype" value="エネルギッシュ"><label for="i4">エネルギッシュ</label></div>
+      <div class="choice-item"><input type="checkbox" id="i5" name="idealtype" value="知的"><label for="i5">知的</label></div>
+      <div class="choice-item"><input type="checkbox" id="i6" name="idealtype" value="感受性が豊か"><label for="i6">感受性が豊か</label></div>
+      <div class="choice-item"><input type="checkbox" id="i7" name="idealtype" value="一緒にいて楽"><label for="i7">一緒にいて楽</label></div>
+      <div class="choice-item"><input type="checkbox" id="i8" name="idealtype" value="刺激的"><label for="i8">刺激的</label></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">06 — Ideal Type</div>
+    <div class="section-title">価値観の近さと、正反対の魅力、どちらが好き？</div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="radio" id="v1" name="values" value="価値観が近い人"><label for="v1">価値観が近い人</label></div>
+      <div class="choice-item"><input type="radio" id="v2" name="values" value="正反対の人"><label for="v2">正反対な人</label></div>
+      <div class="choice-item"><input type="radio" id="v3" name="values" value="どちらでも"><label for="v3">どちらでも</label></div>
+      <div class="choice-item"><input type="radio" id="v4" name="values" value="その時次第"><label for="v4">その時次第</label></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">07 — Message</div>
+    <div class="section-title">今日、どんな出会いを期待していますか？</div>
+    <textarea id="message" placeholder="自由に書いてください（任意）"></textarea>
+    <p class="helper">運営だけが確認します。マッチングの参考にします。</p>
+  </div>
+
+  <div class="submit-wrap">
+    <button class="submit-btn" onclick="handleSubmit()">送信する</button>
+    <p class="submit-note">回答は運営のみ確認します</p>
+  </div>
+
+</div>
+
+<!-- Success -->
+<div class="success" id="successScreen">
+  <div class="success-icon">✦</div>
+  <h2>ありがとうございます</h2>
+  <p>アンケートを受け付けました。<br>当日、素敵な出会いをご用意しています。<br><br>2026.4.18 池袋でお会いしましょう。</p>
+</div>
+
+<script>
+function handleSubmit() {
+  const name = document.getElementById('name').value.trim();
+  if (!name) {
+    document.getElementById('name').focus();
+    document.getElementById('name').style.borderColor = 'rgba(201,150,122,0.8)';
+    return;
+  }
+
+  const age = document.getElementById('ageRange').value;
+  const myTypes = [...document.querySelectorAll('input[name="mytype"]:checked')].map(e => e.value);
+  const weekend = document.querySelector('input[name="weekend"]:checked')?.value || '';
+  const idealTypes = [...document.querySelectorAll('input[name="idealtype"]:checked')].map(e => e.value);
+  const values = document.querySelector('input[name="values"]:checked')?.value || '';
+  const message = document.getElementById('message').value;
+
+  const data = { name, age, myTypes, weekend, idealTypes, values, message, submittedAt: new Date().toISOString() };
+
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSapLbl1PMM1G6NJJI96c2rBvQJn5Lu0ueDSbcNKcRgXFvRIYt4ZnCas33g8sK8jZSPA/exec';
+
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = '送信中...';
+  btn.disabled = true;
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    document.getElementById('formContainer').style.display = 'none';
+    const success = document.getElementById('successScreen');
+    success.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  })
+  .catch(() => {
+    btn.textContent = '送信する';
+    btn.disabled = false;
+    alert('送信に失敗しました。もう一度お試しください。');
+  });
+}
+</script>
+
+</body>
+</html>
