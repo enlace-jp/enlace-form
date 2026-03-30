@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENLACE — 管理画面</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1a1a;
+  --bg2: #242424;
+  --bg3: #2e2e2e;
+  --rose: #c9967a;
+  --rose-light: #e8b49a;
+  --rose-pale: rgba(201,150,122,0.12);
+  --cream: #faf8f5;
+  --muted: #888;
+  --border: rgba(201,150,122,0.2);
+  --green: #4caf89;
+  --amber: #e8a838;
+  --red: #e86060;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic New',sans-serif; font-weight:300; min-height:100vh; }
+
+/* Header */
+.header { background:var(--bg2); border-bottom:1px solid var(--border); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+.logo { font-family:'Cormorant Garamond',serif; font-size:24px; letter-spacing:0.15em; color:var(--cream); }
+.logo span { color:var(--rose); }
+.header-right { display:flex; align-items:center; gap:16px; }
+.refresh-btn { padding:8px 20px; border:1px solid var(--border); border-radius:3px; background:transparent; color:var(--rose); font-family:'Zen Kaku Gothic New',sans-serif; font-size:12px; letter-spacing:0.1em; cursor:pointer; transition:all 0.2s; }
+.refresh-btn:hover { background:var(--rose-pale); }
+.last-updated { font-size:11px; color:var(--muted); }
+
+/* Nav tabs */
+.nav { display:flex; gap:0; border-bottom:1px solid var(--border); padding:0 32px; background:var(--bg2); }
+.nav-tab { padding:14px 24px; font-size:12px; letter-spacing:0.1em; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; }
+.nav-tab.active { color:var(--rose); border-bottom-color:var(--rose); }
+.nav-tab:hover { color:var(--cream); }
+
+/* Main */
+.main { padding:32px; max-width:1400px; margin:0 auto; }
+
+/* Stats row */
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
+.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:20px 24px; }
+.stat-label { font-size:11px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.stat-value { font-family:'Cormorant Garamond',serif; font-size:36px; color:var(--rose); font-weight:300; }
+.stat-sub { font-size:11px; color:var(--muted); margin-top:4px; }
+
+/* Section */
+.section-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); font-weight:300; margin-bottom:20px; letter-spacing:0.05em; }
+
+/* Participant cards */
+.participants-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-bottom:40px; }
+.p-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:20px; transition:border-color 0.2s; cursor:pointer; }
+.p-card:hover { border-color:var(--rose); }
+.p-card.male { border-left:3px solid #6b9fd4; }
+.p-card.female { border-left:3px solid var(--rose); }
+.p-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.p-name { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); }
+.p-gender { font-size:10px; letter-spacing:0.15em; padding:3px 8px; border-radius:2px; }
+.p-gender.male { background:rgba(107,159,212,0.15); color:#6b9fd4; }
+.p-gender.female { background:var(--rose-pale); color:var(--rose); }
+.p-detail { font-size:12px; color:var(--muted); margin-bottom:4px; }
+.p-detail span { color:var(--cream); }
+.p-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
+.p-tag { font-size:10px; padding:2px 8px; border:1px solid var(--border); border-radius:2px; color:var(--muted); }
+
+/* Score table */
+.score-table-wrap { overflow-x:auto; margin-bottom:40px; }
+.score-table { width:100%; border-collapse:collapse; font-size:13px; }
+.score-table th { background:var(--bg3); color:var(--muted); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:12px 16px; text-align:left; font-weight:400; border-bottom:1px solid var(--border); }
+.score-table td { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.score-table tr:hover td { background:rgba(255,255,255,0.02); }
+.score-bar { display:flex; align-items:center; gap:8px; }
+.score-bar-track { flex:1; height:3px; background:rgba(255,255,255,0.08); border-radius:2px; min-width:60px; }
+.score-bar-fill { height:100%; border-radius:2px; transition:width 0.5s; }
+.score-bar-fill.type { background:var(--rose); }
+.score-bar-fill.compat { background:#6b9fd4; }
+.score-num { font-family:'Cormorant Garamond',serif; font-size:16px; min-width:32px; text-align:right; }
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; padding:3px 8px; border-radius:2px; font-weight:400; }
+.badge.high { background:rgba(76,175,137,0.15); color:var(--green); }
+.badge.mid { background:rgba(232,168,56,0.15); color:var(--amber); }
+.badge.low { background:rgba(232,96,96,0.1); color:var(--red); }
+
+/* Match panel */
+.match-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:40px; }
+.match-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:24px; }
+.match-card-title { font-size:11px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:16px; }
+.match-pair { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.match-pair:last-child { border-bottom:none; }
+.match-person { flex:1; }
+.match-person-name { font-size:14px; color:var(--cream); margin-bottom:2px; }
+.match-person-sub { font-size:11px; color:var(--muted); }
+.match-arrow { color:var(--rose); font-size:18px; opacity:0.6; }
+.match-scores { text-align:right; }
+.match-score-row { font-size:11px; color:var(--muted); }
+.match-score-row span { color:var(--rose); font-family:'Cormorant Garamond',serif; font-size:14px; }
+
+/* Loading */
+.loading { text-align:center; padding:80px; color:var(--muted); font-size:13px; }
+.loading-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--rose); margin:0 3px; animation:blink 1.2s infinite; }
+.loading-dot:nth-child(2) { animation-delay:0.2s; }
+.loading-dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+
+/* Empty */
+.empty { text-align:center; padding:60px; color:var(--muted); }
+.empty-icon { font-family:'Cormorant Garamond',serif; font-size:48px; color:var(--rose); opacity:0.3; margin-bottom:16px; }
+
+/* Tab content */
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Detail modal */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:none; align-items:center; justify-content:center; padding:24px; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--bg2); border:1px solid var(--border); border-radius:12px; width:100%; max-width:560px; max-height:80vh; overflow-y:auto; padding:32px; }
+.modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+.modal-name { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--cream); }
+.modal-close { background:none; border:none; color:var(--muted); font-size:24px; cursor:pointer; }
+.modal-row { display:flex; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
+.modal-key { color:var(--muted); width:140px; flex-shrink:0; }
+.modal-val { color:var(--cream); flex:1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">EN<span>L</span>ACE <span style="font-size:13px;color:var(--muted);letter-spacing:0.1em;font-family:'Zen Kaku Gothic New',sans-serif">管理画面</span></div>
+  <div class="header-right">
+    <span class="last-updated" id="lastUpdated">—</span>
+    <button class="refresh-btn" onclick="loadData()">↺ 更新</button>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab active" onclick="switchTab('participants')">参加者一覧</div>
+  <div class="nav-tab" onclick="switchTab('scores')">相性スコア</div>
+  <div class="nav-tab" onclick="switchTab('matching')">マッチング管理</div>
+</div>
+
+<div class="main">
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-label">総参加者</div>
+      <div class="stat-value" id="statTotal">—</div>
+      <div class="stat-sub">回答済み</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">男性</div>
+      <div class="stat-value" id="statMale" style="color:#6b9fd4">—</div>
+      <div class="stat-sub">人</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">女性</div>
+      <div class="stat-value" id="statFemale">—</div>
+      <div class="stat-sub">人</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">高相性ペア</div>
+      <div class="stat-value" id="statPairs" style="color:var(--green)">—</div>
+      <div class="stat-sub">組（総合70点以上）</div>
+    </div>
+  </div>
+
+  <!-- Tab: 参加者一覧 -->
+  <div class="tab-content active" id="tab-participants">
+    <div class="section-title">参加者一覧</div>
+    <div id="participantsList" class="participants-grid">
+      <div class="loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>
+    </div>
+  </div>
+
+  <!-- Tab: 相性スコア -->
+  <div class="tab-content" id="tab-scores">
+    <div class="section-title">相性スコア一覧</div>
+    <div class="score-table-wrap">
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th>男性</th>
+            <th>女性</th>
+            <th>好みスコア（男→女）</th>
+            <th>好みスコア（女→男）</th>
+            <th>相性スコア</th>
+            <th>総合</th>
+            <th>判定</th>
+          </tr>
+        </thead>
+        <tbody id="scoreTableBody">
+          <tr><td colspan="7" class="loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tab: マッチング管理 -->
+  <div class="tab-content" id="tab-matching">
+    <div class="section-title">マッチング管理</div>
+    <div class="match-grid" id="matchingGrid">
+      <div class="loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <div class="modal-header">
+      <div class="modal-name" id="modalName">—</div>
+      <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">×</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9TH3Z66ql_J99AOUishZN2xATeJdtZoBybQuerpIG1xQPzYA7SaAZPVsHC-woyYel9g/exec';
+let allParticipants = [];
+let scores = [];
+
+// タブ切替
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['participants','scores','matching'][i] === tab);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// データ読み込み
+async function loadData() {
+  document.getElementById('lastUpdated').textContent = '読み込み中...';
+  try {
+    const res = await fetch(SCRIPT_URL);
+    const json = await res.json();
+    if (json.result === 'success') {
+      allParticipants = json.participants || [];
+      document.getElementById('lastUpdated').textContent = '最終更新: ' + new Date().toLocaleTimeString('ja-JP');
+      renderAll();
+    }
+  } catch(e) {
+    document.getElementById('lastUpdated').textContent = '読み込みエラー';
+    document.getElementById('participantsList').innerHTML = '<div class="empty"><div class="empty-icon">✦</div><p>データを取得できませんでした</p></div>';
+  }
+}
+
+function renderAll() {
+  const males = allParticipants.filter(p => p['性別'] === '男性');
+  const females = allParticipants.filter(p => p['性別'] === '女性');
+
+  // Stats
+  document.getElementById('statTotal').textContent = allParticipants.length;
+  document.getElementById('statMale').textContent = males.length;
+  document.getElementById('statFemale').textContent = females.length;
+
+  // Scores
+  scores = [];
+  males.forEach(m => {
+    females.forEach(f => {
+      const typeM2F = calcTypeScore(m, f);
+      const typeF2M = calcTypeScore(f, m);
+      const compat = calcCompatScore(m, f);
+      const total = Math.round((typeM2F + typeF2M) / 2 * 0.4 + compat * 0.6);
+      scores.push({ male: m, female: f, typeM2F, typeF2M, compat, total });
+    });
+  });
+  scores.sort((a,b) => b.total - a.total);
+
+  const highPairs = scores.filter(s => s.total >= 70).length;
+  document.getElementById('statPairs').textContent = highPairs;
+
+  renderParticipants();
+  renderScores();
+  renderMatching();
+}
+
+// 参加者一覧
+function renderParticipants() {
+  const el = document.getElementById('participantsList');
+  if (!allParticipants.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">✦</div><p>まだ回答がありません</p></div>';
+    return;
+  }
+  el.innerHTML = allParticipants.map((p, i) => {
+    const gender = p['性別'] === '男性' ? 'male' : 'female';
+    const nickname = p['ニックネーム'] || p['姓'] || '—';
+    const hobbies = (p['趣味'] || '').split(',').slice(0,3).map(h => `<span class="p-tag">${h.trim()}</span>`).join('');
+    return `
+      <div class="p-card ${gender}" onclick="openModal(${i})">
+        <div class="p-card-header">
+          <div class="p-name">${nickname}</div>
+          <span class="p-gender ${gender}">${p['性別'] || '—'}</span>
+        </div>
+        <div class="p-detail">年齢 <span>${p['年齢'] || '—'}</span></div>
+        <div class="p-detail">居住地 <span>${p['居住地'] || '—'}</span></div>
+        <div class="p-detail">職種 <span>${p['職種'] || '—'}</span></div>
+        <div class="p-detail">結婚意思 <span>${p['結婚意思'] || '—'}</span></div>
+        <div class="p-tags">${hobbies}</div>
+      </div>`;
+  }).join('');
+}
+
+// スコアテーブル
+function renderScores() {
+  const tbody = document.getElementById('scoreTableBody');
+  if (!scores.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty"><div class="empty-icon" style="font-size:24px">✦</div><p>男女両方の回答が必要です</p></td></tr>';
+    return;
+  }
+  tbody.innerHTML = scores.map(s => {
+    const badge = s.total >= 70 ? '<span class="badge high">🔥 高相性</span>' :
+                  s.total >= 50 ? '<span class="badge mid">◎ 良好</span>' :
+                  '<span class="badge low">△ 普通</span>';
+    return `
+      <tr>
+        <td>${s.male['ニックネーム'] || s.male['姓'] || '—'}</td>
+        <td>${s.female['ニックネーム'] || s.female['姓'] || '—'}</td>
+        <td>
+          <div class="score-bar">
+            <div class="score-bar-track"><div class="score-bar-fill type" style="width:${s.typeM2F}%"></div></div>
+            <div class="score-num" style="color:var(--rose)">${s.typeM2F}</div>
+          </div>
+        </td>
+        <td>
+          <div class="score-bar">
+            <div class="score-bar-track"><div class="score-bar-fill type" style="width:${s.typeF2M}%"></div></div>
+            <div class="score-num" style="color:var(--rose)">${s.typeF2M}</div>
+          </div>
+        </td>
+        <td>
+          <div class="score-bar">
+            <div class="score-bar-track"><div class="score-bar-fill compat" style="width:${s.compat}%"></div></div>
+            <div class="score-num" style="color:#6b9fd4">${s.compat}</div>
+          </div>
+        </td>
+        <td><span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">${s.total}</span></td>
+        <td>${badge}</td>
+      </tr>`;
+  }).join('');
+}
+
+// マッチング管理
+function renderMatching() {
+  const el = document.getElementById('matchingGrid');
+  const males = allParticipants.filter(p => p['性別'] === '男性');
+  const females = allParticipants.filter(p => p['性別'] === '女性');
+
+  if (!males.length || !females.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">✦</div><p>男女両方の回答が必要です</p></div>';
+    return;
+  }
+
+  // 各男性のベストマッチ
+  const maleMatches = males.map(m => {
+    const best = scores.filter(s => s.male === m).sort((a,b) => b.total - a.total).slice(0,3);
+    return { person: m, matches: best };
+  });
+
+  // 各女性のベストマッチ
+  const femaleMatches = females.map(f => {
+    const best = scores.filter(s => s.female === f).sort((a,b) => b.total - a.total).slice(0,3);
+    return { person: f, matches: best };
+  });
+
+  el.innerHTML = `
+    <div class="match-card">
+      <div class="match-card-title">男性 → おすすめ女性TOP3</div>
+      ${maleMatches.map(({person, matches}) => `
+        <div style="margin-bottom:16px">
+          <div style="font-size:13px;color:var(--rose);margin-bottom:8px">${person['ニックネーム'] || person['姓'] || '—'}</div>
+          ${matches.map((s,i) => `
+            <div class="match-pair">
+              <div class="match-person">
+                <div class="match-person-name">${i+1}. ${s.female['ニックネーム'] || s.female['姓'] || '—'}</div>
+                <div class="match-person-sub">好み:${Math.round((s.typeM2F+s.typeF2M)/2)}点 相性:${s.compat}点</div>
+              </div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=50?'var(--amber)':'var(--muted)'}">${s.total}</div>
+            </div>`).join('')}
+        </div>`).join('')}
+    </div>
+    <div class="match-card">
+      <div class="match-card-title">女性 → おすすめ男性TOP3</div>
+      ${femaleMatches.map(({person, matches}) => `
+        <div style="margin-bottom:16px">
+          <div style="font-size:13px;color:var(--rose);margin-bottom:8px">${person['ニックネーム'] || person['姓'] || '—'}</div>
+          ${matches.map((s,i) => `
+            <div class="match-pair">
+              <div class="match-person">
+                <div class="match-person-name">${i+1}. ${s.male['ニックネーム'] || s.male['姓'] || '—'}</div>
+                <div class="match-person-sub">好み:${Math.round((s.typeM2F+s.typeF2M)/2)}点 相性:${s.compat}点</div>
+              </div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=50?'var(--amber)':'var(--muted)'}">${s.total}</div>
+            </div>`).join('')}
+        </div>`).join('')}
+    </div>`;
+}
+
+// 好みのタイプスコア計算
+function calcTypeScore(viewer, target) {
+  let score = 0;
+  // 顔タイプ（30点）
+  const idealFaceType = (viewer['希望顔タイプ'] || '').split(',').map(s=>s.trim());
+  const targetFaceType = target['顔タイプ'] || '';
+  if (idealFaceType.some(t => targetFaceType.includes(t))) score += 30;
+  // 体形（25点）
+  const idealBody = (viewer['希望体形'] || '').split(',').map(s=>s.trim());
+  const targetBody = target['体形'] || '';
+  if (idealBody.some(b => targetBody.includes(b))) score += 25;
+  // 顔の特徴（45点・割合計算）
+  const idealFace = (viewer['希望顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const targetFace = (target['顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  if (idealFace.length > 0) {
+    const matches = idealFace.filter(f => targetFace.includes(f)).length;
+    score += Math.round(45 * matches / idealFace.length);
+  }
+  return Math.min(100, score);
+}
+
+// 相性スコア計算
+function calcCompatScore(male, female) {
+  let score = 0;
+  // 性格合致率（40点）
+  const mIdealChar = (male['希望性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const fChar = (female['性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const fIdealChar = (female['希望性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const mChar = (male['性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  let charScore = 0;
+  if (mIdealChar.length > 0) charScore += 20 * mIdealChar.filter(c => fChar.includes(c)).length / mIdealChar.length;
+  if (fIdealChar.length > 0) charScore += 20 * fIdealChar.filter(c => mChar.includes(c)).length / fIdealChar.length;
+  score += Math.round(charScore);
+  // 趣味合致率（25点）
+  const mHobby = (male['趣味'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const fHobby = (female['趣味'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+  const allHobbies = [...new Set([...mHobby, ...fHobby])];
+  if (allHobbies.length > 0) {
+    const common = mHobby.filter(h => fHobby.includes(h)).length;
+    score += Math.round(25 * common / Math.max(mHobby.length, fHobby.length, 1));
+  }
+  // お酒（10点）
+  const mAlcohol = male['お酒'] || '';
+  const fAlcohol = female['お酒'] || '';
+  const mIdealAlcohol = male['希望お酒'] || '';
+  const fIdealAlcohol = female['希望お酒'] || '';
+  if (mIdealAlcohol === 'こだわらない' || fAlcohol.includes(mIdealAlcohol.replace('人がいい','').replace('一緒に飲みたい',''))) score += 5;
+  if (fIdealAlcohol === 'こだわらない' || mAlcohol.includes(fIdealAlcohol.replace('人がいい','').replace('一緒に飲みたい',''))) score += 5;
+  // タバコ（10点）
+  const mTobacco = male['タバコ'] || '';
+  const fTobacco = female['タバコ'] || '';
+  const mIdealTobacco = male['希望タバコ'] || '';
+  const fIdealTobacco = female['希望タバコ'] || '';
+  if (mIdealTobacco === 'こだわらない' || (mIdealTobacco.includes('吸わない') && fTobacco === '吸わない')) score += 5;
+  if (fIdealTobacco === 'こだわらない' || (fIdealTobacco.includes('吸わない') && mTobacco === '吸わない')) score += 5;
+  // 年齢範囲（10点）
+  const mAge = parseInt(male['年齢']) || 0;
+  const fAge = parseInt(female['年齢']) || 0;
+  const mAgeMin = parseInt(male['希望年齢下限']) || 0;
+  const mAgeMax = parseInt(male['希望年齢上限']) || 99;
+  const fAgeMin = parseInt(female['希望年齢下限']) || 0;
+  const fAgeMax = parseInt(female['希望年齢上限']) || 99;
+  if (fAge >= mAgeMin && fAge <= mAgeMax) score += 5;
+  if (mAge >= fAgeMin && mAge <= fAgeMax) score += 5;
+  // 身長範囲（5点）
+  const mHeight = parseInt(male['身長']) || 0;
+  const fHeight = parseInt(female['身長']) || 0;
+  const fHeightMin = parseInt(female['希望身長下限']) || 0;
+  const fHeightMax = parseInt(female['希望身長上限']) || 999;
+  if (mHeight >= fHeightMin && mHeight <= fHeightMax) score += 5;
+  return Math.min(100, score);
+}
+
+// モーダル
+function openModal(index) {
+  const p = allParticipants[index];
+  document.getElementById('modalName').textContent = p['ニックネーム'] || p['姓'] || '—';
+  const keys = ['姓','名','姓（ふりがな）','名（ふりがな）','性別','年齢','生年月日','出身地','居住地','休日','職種','会社名','年収','身長','体形','顔タイプ','性格','結婚意思','タバコ','お酒','趣味','希望年齢下限','希望年齢上限','希望体形','希望性格','メッセージ'];
+  document.getElementById('modalBody').innerHTML = keys.map(k => p[k] ? `<div class="modal-row"><div class="modal-key">${k}</div><div class="modal-val">${p[k]}</div></div>` : '').join('');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+// 初期読み込み
+loadData();
+</script>
+</body>
+</html>
