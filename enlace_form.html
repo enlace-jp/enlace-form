@@ -8,68 +8,362 @@
 <style>
   :root {
     --charcoal: #2a2a2a;
+    --charcoal-light: #3d3d3d;
     --charcoal-muted: #6b6b6b;
     --rose-gold: #c9967a;
     --rose-gold-light: #e8b49a;
+    --rose-gold-pale: #f5e8e0;
     --cream: #faf8f5;
+    --white: #ffffff;
     --border: rgba(201, 150, 122, 0.25);
     --border-focus: rgba(201, 150, 122, 0.7);
   }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--charcoal); color: var(--cream); font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 300; min-height: 100vh; padding: 0 0 80px; }
-  .header { text-align: center; padding: 64px 24px 48px; }
-  .header::after { content: ''; display: block; width: 40px; height: 1px; background: var(--rose-gold); margin: 32px auto 0; opacity: 0.6; }
-  .logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 42px; letter-spacing: 0.18em; color: var(--cream); margin-bottom: 10px; }
-  .logo span { color: var(--rose-gold); }
-  .tagline { font-size: 11px; letter-spacing: 0.28em; color: var(--charcoal-muted); text-transform: uppercase; }
-  .event-info { display: flex; justify-content: center; gap: 28px; margin-top: 28px; }
-  .event-info span { font-size: 11px; letter-spacing: 0.15em; color: var(--rose-gold); opacity: 0.8; }
-  .form-container { max-width: 480px; margin: 0 auto; padding: 0 24px; }
-  .section { margin-bottom: 40px; opacity: 0; transform: translateY(16px); animation: fadeUp 0.5s ease forwards; }
-  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-  .section-label { font-size: 10px; letter-spacing: 0.3em; color: var(--rose-gold); text-transform: uppercase; margin-bottom: 10px; opacity: 0.8; }
-  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--cream); margin-bottom: 16px; line-height: 1.4; }
-  .sub-note { font-size: 12px; color: var(--charcoal-muted); margin-bottom: 14px; display: block; }
-  input[type="text"], input[type="email"], input[type="number"], select, textarea {
-    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 4px;
-    color: var(--cream); font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 300; font-size: 14px;
-    padding: 14px 16px; outline: none; transition: border-color 0.2s, background 0.2s; -webkit-appearance: none;
+
+  body {
+    background: var(--charcoal);
+    color: var(--cream);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 0 0 80px;
   }
-  input:focus, select:focus, textarea:focus { border-color: var(--border-focus); background: rgba(201, 150, 122, 0.06); }
-  input::placeholder, textarea::placeholder { color: var(--charcoal-muted); font-size: 13px; }
-  select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9967a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
-  select option { background: var(--charcoal); color: var(--cream); }
-  textarea { resize: none; min-height: 90px; line-height: 1.6; }
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .choice-item { position: relative; }
-  .choice-item input[type="radio"], .choice-item input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
-  .choice-item label { display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 13px; color: var(--cream); cursor: pointer; transition: all 0.2s; line-height: 1.4; min-height: 48px; background: rgba(255,255,255,0.02); }
-  .choice-item input:checked + label { border-color: var(--rose-gold); background: rgba(201, 150, 122, 0.12); color: var(--rose-gold-light); }
-  .choice-item label:hover { border-color: rgba(201, 150, 122, 0.45); background: rgba(201, 150, 122, 0.05); }
-  .slider-wrap { padding: 8px 0; }
-  .slider-labels { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 11px; color: var(--charcoal-muted); }
-  input[type="range"] { -webkit-appearance: none; width: 100%; height: 1px; background: var(--border); outline: none; border: none; padding: 0; }
-  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--rose-gold); cursor: pointer; border: 2px solid var(--charcoal); box-shadow: 0 0 0 1px var(--rose-gold); transition: transform 0.15s; }
-  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
-  .slider-value { text-align: center; margin-top: 12px; font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--rose-gold); font-weight: 300; }
-  .divider { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin-bottom: 40px; }
-  .chapter-heading { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 0.25em; color: var(--rose-gold); text-transform: uppercase; text-align: center; margin-bottom: 32px; opacity: 0.9; }
-  .gender-section { display: none; }
-  .gender-section.active { display: block; }
-  .gender-notice { text-align: center; padding: 24px; border: 1px solid var(--border); border-radius: 8px; color: var(--charcoal-muted); font-size: 13px; }
-  .submit-wrap { text-align: center; padding-top: 8px; }
-  .submit-btn { display: inline-block; padding: 16px 56px; border: 1px solid var(--rose-gold); border-radius: 2px; background: transparent; color: var(--rose-gold); font-family: 'Zen Kaku Gothic New', sans-serif; font-weight: 300; font-size: 13px; letter-spacing: 0.2em; cursor: pointer; transition: all 0.25s; text-transform: uppercase; }
-  .submit-btn:hover { background: var(--rose-gold); color: var(--charcoal); }
-  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .submit-note { margin-top: 16px; font-size: 11px; color: var(--charcoal-muted); }
-  .helper { font-size: 11px; color: var(--charcoal-muted); margin-top: 8px; }
-  .required { color: var(--rose-gold); opacity: 0.7; font-size: 10px; margin-left: 4px; }
-  .success { display: none; text-align: center; padding: 80px 24px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 64px 24px 48px;
+    position: relative;
+  }
+
+  .header::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--rose-gold);
+    margin: 32px auto 0;
+    opacity: 0.6;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 42px;
+    letter-spacing: 0.18em;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .logo span {
+    color: var(--rose-gold);
+  }
+
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--charcoal-muted);
+    text-transform: uppercase;
+  }
+
+  .event-info {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 28px;
+  }
+
+  .event-info span {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--rose-gold);
+    opacity: 0.8;
+  }
+
+  /* Form container */
+  .form-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+  .section:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--rose-gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  /* Input styles */
+  input[type="text"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--cream);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--border-focus);
+    background: rgba(201, 150, 122, 0.06);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--charcoal-muted);
+    font-size: 13px;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9967a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  select option {
+    background: var(--charcoal);
+    color: var(--cream);
+  }
+
+  textarea {
+    resize: none;
+    min-height: 90px;
+    line-height: 1.6;
+  }
+
+  /* Choice grid */
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .choice-grid.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .choice-item {
+    position: relative;
+  }
+
+  .choice-item input[type="radio"],
+  .choice-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .choice-item label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--cream);
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1.4;
+    min-height: 48px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .choice-item input:checked + label {
+    border-color: var(--rose-gold);
+    background: rgba(201, 150, 122, 0.12);
+    color: var(--rose-gold-light);
+  }
+
+  .choice-item label:hover {
+    border-color: rgba(201, 150, 122, 0.45);
+    background: rgba(201, 150, 122, 0.05);
+  }
+
+  /* Slider */
+  .slider-wrap {
+    padding: 8px 0;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 11px;
+    color: var(--charcoal-muted);
+    letter-spacing: 0.05em;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    outline: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--rose-gold);
+    cursor: pointer;
+    border: 2px solid var(--charcoal);
+    box-shadow: 0 0 0 1px var(--rose-gold);
+    transition: transform 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .slider-value {
+    text-align: center;
+    margin-top: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--rose-gold);
+    font-weight: 300;
+  }
+
+  /* Divider */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin-bottom: 48px;
+  }
+
+  /* Submit */
+  .submit-wrap {
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  .submit-btn {
+    display: inline-block;
+    padding: 16px 56px;
+    border: 1px solid var(--rose-gold);
+    border-radius: 2px;
+    background: transparent;
+    color: var(--rose-gold);
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-transform: uppercase;
+  }
+
+  .submit-btn:hover {
+    background: var(--rose-gold);
+    color: var(--charcoal);
+  }
+
+  .submit-note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: var(--charcoal-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Success screen */
+  .success {
+    display: none;
+    text-align: center;
+    padding: 80px 24px;
+  }
+
   .success.show { display: block; }
-  .success-icon { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--rose-gold); margin-bottom: 24px; opacity: 0.7; }
-  .success h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 28px; color: var(--cream); margin-bottom: 12px; }
-  .success p { font-size: 13px; color: var(--charcoal-muted); line-height: 1.8; }
+
+  .success-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: var(--rose-gold);
+    margin-bottom: 24px;
+    opacity: 0.7;
+  }
+
+  .success h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+
+  .success p {
+    font-size: 13px;
+    color: var(--charcoal-muted);
+    line-height: 1.8;
+  }
+
+  /* Helper text */
+  .helper {
+    font-size: 11px;
+    color: var(--charcoal-muted);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .required {
+    color: var(--rose-gold);
+    opacity: 0.7;
+    font-size: 10px;
+    margin-left: 4px;
+  }
 </style>
 </head>
 <body>
@@ -78,452 +372,98 @@
   <div class="logo">EN<span>L</span>ACE</div>
   <div class="tagline">事前アンケート</div>
   <div class="event-info">
-    <span>2026.4.18</span><span>·</span><span>池袋</span><span>·</span><span>少人数開催</span>
+    <span>2026.4.18</span>
+    <span>·</span>
+    <span>池袋</span>
+    <span>·</span>
+    <span>少人数開催</span>
   </div>
 </div>
 
 <div class="form-container" id="formContainer">
 
-  <!-- ── 基本情報 ── -->
-  <div class="chapter-heading">基本情報</div>
-
-  <div class="section" style="animation-delay:0.05s">
-    <div class="section-label">01</div>
+  <!-- 基本情報 -->
+  <div class="section">
+    <div class="section-label">01 — Basic</div>
     <div class="section-title">お名前（ニックネームOK）<span class="required">必須</span></div>
-    <input type="text" id="name" placeholder="当日お呼びする名前">
+    <input type="text" id="name" placeholder="当日お呼びする名前を入力してください">
   </div>
 
-  <div class="section" style="animation-delay:0.1s">
-    <div class="section-label">02</div>
-    <div class="section-title">メールアドレス<span class="required">必須</span></div>
-    <input type="email" id="email" placeholder="example@email.com">
-    <p class="helper">運営からの連絡にのみ使用します</p>
-  </div>
-
-  <div class="section" style="animation-delay:0.15s">
-    <div class="section-label">03</div>
-    <div class="section-title">性別<span class="required">必須</span></div>
-    <div class="two-col">
-      <div class="choice-item"><input type="radio" id="gm" name="gender" value="男性" onchange="onGenderChange('男性')"><label for="gm">男性</label></div>
-      <div class="choice-item"><input type="radio" id="gf" name="gender" value="女性" onchange="onGenderChange('女性')"><label for="gf">女性</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:0.2s">
-    <div class="section-label">04</div>
+  <div class="section">
+    <div class="section-label">02 — Basic</div>
     <div class="section-title">年齢<span class="required">必須</span></div>
     <div class="slider-wrap">
-      <div class="slider-labels"><span>20</span><span>25</span><span>30</span><span>35</span><span>40代〜</span></div>
-      <input type="range" id="ageRange" min="20" max="45" value="27" oninput="document.getElementById('ageVal').textContent=this.value+'歳'">
-      <div class="slider-value"><span id="ageVal">27歳</span></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:0.25s">
-    <div class="section-label">05</div>
-    <div class="section-title">出身地</div>
-    <input type="text" id="birthplace" placeholder="例：大阪府">
-  </div>
-
-  <div class="section" style="animation-delay:0.3s">
-    <div class="section-label">06</div>
-    <div class="section-title">居住地</div>
-    <input type="text" id="residence" placeholder="例：東京都渋谷区">
-  </div>
-
-  <div class="section" style="animation-delay:0.35s">
-    <div class="section-label">07</div>
-    <div class="section-title">休日</div>
-    <div class="two-col">
-      <div class="choice-item"><input type="radio" id="hol1" name="holiday" value="土日休み"><label for="hol1">土日休み</label></div>
-      <div class="choice-item"><input type="radio" id="hol2" name="holiday" value="平日休み"><label for="hol2">平日休み</label></div>
-      <div class="choice-item"><input type="radio" id="hol3" name="holiday" value="不定休"><label for="hol3">不定休</label></div>
-      <div class="choice-item"><input type="radio" id="hol4" name="holiday" value="その他"><label for="hol4">その他</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:0.4s">
-    <div class="section-label">08</div>
-    <div class="section-title">職種</div>
-    <select id="occupation">
-      <option value="">選択してください</option>
-      <option>IT・エンジニア</option>
-      <option>営業・販売</option>
-      <option>マーケティング・企画</option>
-      <option>経営・管理職</option>
-      <option>医療・福祉</option>
-      <option>教育・研究</option>
-      <option>金融・保険</option>
-      <option>クリエイター・デザイン</option>
-      <option>公務員</option>
-      <option>飲食・サービス</option>
-      <option>自営業・フリーランス</option>
-      <option>その他</option>
-    </select>
-  </div>
-
-  <div class="section" style="animation-delay:0.45s">
-    <div class="section-label">09</div>
-    <div class="section-title">会社名</div>
-    <input type="text" id="company" placeholder="任意">
-    <p class="helper">運営のみ確認します。参加者には公開しません。</p>
-  </div>
-
-  <div class="section" style="animation-delay:0.5s">
-    <div class="section-label">10</div>
-    <div class="section-title">年収</div>
-    <select id="income">
-      <option value="">選択してください</option>
-      <option>300万未満</option>
-      <option>300〜400万</option>
-      <option>400〜500万</option>
-      <option>500〜600万</option>
-      <option>600〜800万</option>
-      <option>800〜1000万</option>
-      <option>1000万以上</option>
-      <option>答えたくない</option>
-    </select>
-    <p class="helper">運営のみ確認します。参加者には公開しません。</p>
-  </div>
-
-  <div class="divider"></div>
-
-  <!-- ── 自分について（性別共通） ── -->
-  <div class="chapter-heading">自分について</div>
-
-  <div class="section" style="animation-delay:0.55s">
-    <div class="section-label">11</div>
-    <div class="section-title">身長</div>
-    <div class="slider-wrap">
-      <div class="slider-labels"><span>150cm</span><span>160cm</span><span>170cm</span><span>180cm</span><span>190cm〜</span></div>
-      <input type="range" id="heightRange" min="150" max="195" value="168" oninput="document.getElementById('heightVal').textContent=this.value+'cm'">
-      <div class="slider-value"><span id="heightVal">168cm</span></div>
-    </div>
-  </div>
-
-  <!-- 体形（性別で切替） -->
-  <div class="section" style="animation-delay:0.6s">
-    <div class="section-label">12</div>
-    <div class="section-title">体形</div>
-    <div id="body-male" class="gender-section two-col">
-      <div class="choice-item"><input type="radio" id="bdm1" name="body" value="細め"><label for="bdm1">細め</label></div>
-      <div class="choice-item"><input type="radio" id="bdm2" name="body" value="普通"><label for="bdm2">普通</label></div>
-      <div class="choice-item"><input type="radio" id="bdm3" name="body" value="筋肉質"><label for="bdm3">筋肉質</label></div>
-      <div class="choice-item"><input type="radio" id="bdm4" name="body" value="ぽっちゃり"><label for="bdm4">ぽっちゃり</label></div>
-    </div>
-    <div id="body-female" class="gender-section two-col">
-      <div class="choice-item"><input type="radio" id="bdf1" name="body" value="細め・スレンダー"><label for="bdf1">細め・スレンダー</label></div>
-      <div class="choice-item"><input type="radio" id="bdf2" name="body" value="普通"><label for="bdf2">普通</label></div>
-      <div class="choice-item"><input type="radio" id="bdf3" name="body" value="グラマー"><label for="bdf3">グラマー</label></div>
-      <div class="choice-item"><input type="radio" id="bdf4" name="body" value="ぽっちゃり"><label for="bdf4">ぽっちゃり</label></div>
-    </div>
-    <div id="body-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <!-- 顔の特徴（性別で切替） -->
-  <div class="section" style="animation-delay:0.65s">
-    <div class="section-label">13</div>
-    <div class="section-title">顔の特徴<span class="sub-note">近いものをすべて選んでください</span></div>
-    <div id="face-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="fcm1" name="face" value="ぱっちりした目"><label for="fcm1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm2" name="face" value="鼻筋"><label for="fcm2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm3" name="face" value="笑顔"><label for="fcm3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm4" name="face" value="小顔"><label for="fcm4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm5" name="face" value="一重"><label for="fcm5">一重</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm6" name="face" value="短髪"><label for="fcm6">短髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm7" name="face" value="黒髪"><label for="fcm7">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm8" name="face" value="歯並び"><label for="fcm8">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm9" name="face" value="笑いジワ"><label for="fcm9">笑いジワ</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm10" name="face" value="色気"><label for="fcm10">色気</label></div>
-    </div>
-    <div id="face-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="fcf1" name="face" value="ぱっちりした目"><label for="fcf1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf2" name="face" value="鼻筋"><label for="fcf2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf3" name="face" value="笑顔"><label for="fcf3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf4" name="face" value="小顔"><label for="fcf4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf5" name="face" value="丸顔"><label for="fcf5">丸顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf6" name="face" value="ロングヘア"><label for="fcf6">ロングヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf7" name="face" value="ショートヘア"><label for="fcf7">ショートヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf8" name="face" value="黒髪"><label for="fcf8">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf9" name="face" value="歯並び"><label for="fcf9">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf10" name="face" value="えくぼ"><label for="fcf10">えくぼ</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf11" name="face" value="色白"><label for="fcf11">色白</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf12" name="face" value="色気"><label for="fcf12">色気</label></div>
-    </div>
-    <div id="face-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <!-- 顔タイプ（性別で切替） -->
-  <div class="section" style="animation-delay:0.7s">
-    <div class="section-label">14</div>
-    <div class="section-title">顔タイプ</div>
-    <div id="facetype-male" class="gender-section two-col">
-      <div class="choice-item"><input type="radio" id="ftm1" name="facetype" value="キュート系"><label for="ftm1">キュート系</label></div>
-      <div class="choice-item"><input type="radio" id="ftm2" name="facetype" value="ワイルド系"><label for="ftm2">ワイルド系</label></div>
-      <div class="choice-item"><input type="radio" id="ftm3" name="facetype" value="塩顔系"><label for="ftm3">塩顔系</label></div>
-      <div class="choice-item"><input type="radio" id="ftm4" name="facetype" value="フレッシュ系"><label for="ftm4">フレッシュ系</label></div>
-    </div>
-    <div id="facetype-female" class="gender-section two-col">
-      <div class="choice-item"><input type="radio" id="ftf1" name="facetype" value="かわいい系"><label for="ftf1">かわいい系</label></div>
-      <div class="choice-item"><input type="radio" id="ftf2" name="facetype" value="きれい系"><label for="ftf2">きれい系</label></div>
-      <div class="choice-item"><input type="radio" id="ftf3" name="facetype" value="癒し系"><label for="ftf3">癒し系</label></div>
-      <div class="choice-item"><input type="radio" id="ftf4" name="facetype" value="ミステリアス系"><label for="ftf4">ミステリアス系</label></div>
-    </div>
-    <div id="facetype-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <!-- 性格（性別で切替） -->
-  <div class="section" style="animation-delay:0.75s">
-    <div class="section-label">15</div>
-    <div class="section-title">性格<span class="sub-note">近いものをすべて選んでください</span></div>
-    <div id="character-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="chm1" name="character" value="優しい"><label for="chm1">優しい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm2" name="character" value="面白い"><label for="chm2">面白い</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm3" name="character" value="明るい"><label for="chm3">明るい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm4" name="character" value="知的"><label for="chm4">知的</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm5" name="character" value="誠実"><label for="chm5">誠実</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm6" name="character" value="落ち着きがある"><label for="chm6">落ち着きがある</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm7" name="character" value="情熱的"><label for="chm7">情熱的</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm8" name="character" value="気前がいい"><label for="chm8">気前がいい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm9" name="character" value="仕事好き"><label for="chm9">仕事好き</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm10" name="character" value="好奇心旺盛"><label for="chm10">好奇心旺盛</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm11" name="character" value="聞き上手"><label for="chm11">聞き上手</label></div>
-    </div>
-    <div id="character-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="chf1" name="character" value="優しい"><label for="chf1">優しい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf2" name="character" value="明るい"><label for="chf2">明るい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf3" name="character" value="天然"><label for="chf3">天然</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf4" name="character" value="しっかり者"><label for="chf4">しっかり者</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf5" name="character" value="甘え上手"><label for="chf5">甘え上手</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf6" name="character" value="誠実"><label for="chf6">誠実</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf7" name="character" value="癒し系"><label for="chf7">癒し系</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf8" name="character" value="好奇心旺盛"><label for="chf8">好奇心旺盛</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf9" name="character" value="聞き上手"><label for="chf9">聞き上手</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf10" name="character" value="情熱的"><label for="chf10">情熱的</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf11" name="character" value="オシャレ好き"><label for="chf11">オシャレ好き</label></div>
-    </div>
-    <div id="character-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <div class="section" style="animation-delay:0.8s">
-    <div class="section-label">16</div>
-    <div class="section-title">結婚への意思</div>
-    <div class="two-col">
-      <div class="choice-item"><input type="radio" id="ma1" name="marriage" value="すぐにでもしたい"><label for="ma1">すぐにでもしたい</label></div>
-      <div class="choice-item"><input type="radio" id="ma2" name="marriage" value="いずれはしたい"><label for="ma2">いずれはしたい</label></div>
-      <div class="choice-item"><input type="radio" id="ma3" name="marriage" value="まだ考えていない"><label for="ma3">まだ考えていない</label></div>
-      <div class="choice-item"><input type="radio" id="ma4" name="marriage" value="こだわらない"><label for="ma4">こだわらない</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:0.85s">
-    <div class="section-label">17</div>
-    <div class="section-title">タバコ</div>
-    <div class="three-col">
-      <div class="choice-item"><input type="radio" id="tb1" name="tobacco" value="吸わない"><label for="tb1">吸わない</label></div>
-      <div class="choice-item"><input type="radio" id="tb2" name="tobacco" value="電子タバコ"><label for="tb2">電子タバコ</label></div>
-      <div class="choice-item"><input type="radio" id="tb3" name="tobacco" value="吸う"><label for="tb3">吸う</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:0.9s">
-    <div class="section-label">18</div>
-    <div class="section-title">お酒</div>
-    <div class="three-col">
-      <div class="choice-item"><input type="radio" id="al1" name="alcohol" value="飲まない"><label for="al1">飲まない</label></div>
-      <div class="choice-item"><input type="radio" id="al2" name="alcohol" value="たまに飲む"><label for="al2">たまに飲む</label></div>
-      <div class="choice-item"><input type="radio" id="al3" name="alcohol" value="よく飲む"><label for="al3">よく飲む</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:0.95s">
-    <div class="section-label">19</div>
-    <div class="section-title">趣味<span class="sub-note">近いものをすべて選んでください</span></div>
-    <div class="two-col">
-      <div class="choice-item"><input type="checkbox" id="hb1" name="hobby" value="旅行"><label for="hb1">旅行</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb2" name="hobby" value="グルメ"><label for="hb2">グルメ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb3" name="hobby" value="スポーツ"><label for="hb3">スポーツ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb4" name="hobby" value="映画・ドラマ"><label for="hb4">映画・ドラマ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb5" name="hobby" value="音楽"><label for="hb5">音楽</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb6" name="hobby" value="読書"><label for="hb6">読書</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb7" name="hobby" value="ゲーム"><label for="hb7">ゲーム</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb8" name="hobby" value="アウトドア"><label for="hb8">アウトドア</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb9" name="hobby" value="料理"><label for="hb9">料理</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb10" name="hobby" value="カフェ巡り"><label for="hb10">カフェ巡り</label></div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-  <div class="chapter-heading">相手に求める条件</div>
-
-  <div class="section" style="animation-delay:1s">
-    <div class="section-label">20</div>
-    <div class="section-title">希望する相手の年齢幅</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div><p class="helper" style="margin-bottom:8px">下限（歳）</p><input type="number" id="ageMin" placeholder="例：22" min="20" max="50"></div>
-      <div><p class="helper" style="margin-bottom:8px">上限（歳）</p><input type="number" id="ageMax" placeholder="例：35" min="20" max="55"></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.05s">
-    <div class="section-label">21</div>
-    <div class="section-title">希望する相手の身長</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div><p class="helper" style="margin-bottom:8px">下限（cm）</p><input type="number" id="heightMin" placeholder="例：155" min="140" max="210"></div>
-      <div><p class="helper" style="margin-bottom:8px">上限（cm）</p><input type="number" id="heightMax" placeholder="例：185" min="140" max="210"></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.1s">
-    <div class="section-label">22</div>
-    <div class="section-title">希望する体形<span class="sub-note">近いものをすべて選んでください</span></div>
-    <!-- 男性が選ぶ→女性の体形を表示 -->
-    <div id="idealbody-for-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="ibm1" name="idealbody" value="細め・スレンダー"><label for="ibm1">細め・スレンダー</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibm2" name="idealbody" value="普通"><label for="ibm2">普通</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibm3" name="idealbody" value="グラマー"><label for="ibm3">グラマー</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibm4" name="idealbody" value="ぽっちゃり"><label for="ibm4">ぽっちゃり</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibm5" name="idealbody" value="こだわらない"><label for="ibm5">こだわらない</label></div>
-    </div>
-    <!-- 女性が選ぶ→男性の体形を表示 -->
-    <div id="idealbody-for-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="ibf1" name="idealbody" value="細め"><label for="ibf1">細め</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibf2" name="idealbody" value="普通"><label for="ibf2">普通</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibf3" name="idealbody" value="筋肉質"><label for="ibf3">筋肉質</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibf4" name="idealbody" value="ぽっちゃり"><label for="ibf4">ぽっちゃり</label></div>
-      <div class="choice-item"><input type="checkbox" id="ibf5" name="idealbody" value="こだわらない"><label for="ibf5">こだわらない</label></div>
-    </div>
-    <div id="idealbody-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <div class="section" style="animation-delay:1.15s">
-    <div class="section-label">23</div>
-    <div class="section-title">相手のお酒</div>
-    <div class="two-col">
-      <div class="choice-item"><input type="radio" id="pal1" name="idealAlcohol" value="飲まない人がいい"><label for="pal1">飲まない人がいい</label></div>
-      <div class="choice-item"><input type="radio" id="pal2" name="idealAlcohol" value="一緒に飲みたい"><label for="pal2">一緒に飲みたい</label></div>
-      <div class="choice-item"><input type="radio" id="pal3" name="idealAlcohol" value="こだわらない"><label for="pal3">こだわらない</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.2s">
-    <div class="section-label">24</div>
-    <div class="section-title">相手のタバコ</div>
-    <div class="two-col">
-      <div class="choice-item"><input type="radio" id="ptb1" name="idealTobacco" value="吸わない人がいい"><label for="ptb1">吸わない人がいい</label></div>
-      <div class="choice-item"><input type="radio" id="ptb2" name="idealTobacco" value="こだわらない"><label for="ptb2">こだわらない</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.25s">
-    <div class="section-label">25</div>
-    <div class="section-title">希望する顔の特徴<span class="sub-note">近いものをすべて選んでください</span></div>
-    <!-- 男性が選ぶ→女性の顔の特徴 -->
-    <div id="idealface-for-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="ifm1" name="idealface" value="ぱっちりした目"><label for="ifm1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm2" name="idealface" value="鼻筋"><label for="ifm2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm3" name="idealface" value="笑顔"><label for="ifm3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm4" name="idealface" value="小顔"><label for="ifm4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm5" name="idealface" value="丸顔"><label for="ifm5">丸顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm6" name="idealface" value="ロングヘア"><label for="ifm6">ロングヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm7" name="idealface" value="ショートヘア"><label for="ifm7">ショートヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm8" name="idealface" value="黒髪"><label for="ifm8">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm9" name="idealface" value="歯並び"><label for="ifm9">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm10" name="idealface" value="えくぼ"><label for="ifm10">えくぼ</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm11" name="idealface" value="色白"><label for="ifm11">色白</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm12" name="idealface" value="色気"><label for="ifm12">色気</label></div>
-    </div>
-    <!-- 女性が選ぶ→男性の顔の特徴 -->
-    <div id="idealface-for-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="iff1" name="idealface" value="ぱっちりした目"><label for="iff1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff2" name="idealface" value="鼻筋"><label for="iff2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff3" name="idealface" value="笑顔"><label for="iff3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff4" name="idealface" value="小顔"><label for="iff4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff5" name="idealface" value="一重"><label for="iff5">一重</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff6" name="idealface" value="短髪"><label for="iff6">短髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff7" name="idealface" value="黒髪"><label for="iff7">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff8" name="idealface" value="歯並び"><label for="iff8">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff9" name="idealface" value="笑いジワ"><label for="iff9">笑いジワ</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff10" name="idealface" value="色気"><label for="iff10">色気</label></div>
-    </div>
-    <div id="idealface-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <div class="section" style="animation-delay:1.3s">
-    <div class="section-label">26</div>
-    <div class="section-title">希望する顔タイプ<span class="sub-note">近いものをすべて選んでください</span></div>
-    <!-- 男性が選ぶ→女性の顔タイプ -->
-    <div id="idealfacetype-for-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="iftm1" name="idealfacetype" value="かわいい系"><label for="iftm1">かわいい系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftm2" name="idealfacetype" value="きれい系"><label for="iftm2">きれい系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftm3" name="idealfacetype" value="癒し系"><label for="iftm3">癒し系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftm4" name="idealfacetype" value="ミステリアス系"><label for="iftm4">ミステリアス系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftm5" name="idealfacetype" value="こだわらない"><label for="iftm5">こだわらない</label></div>
-    </div>
-    <!-- 女性が選ぶ→男性の顔タイプ -->
-    <div id="idealfacetype-for-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="iftf1" name="idealfacetype" value="キュート系"><label for="iftf1">キュート系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftf2" name="idealfacetype" value="ワイルド系"><label for="iftf2">ワイルド系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftf3" name="idealfacetype" value="塩顔系"><label for="iftf3">塩顔系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftf4" name="idealfacetype" value="フレッシュ系"><label for="iftf4">フレッシュ系</label></div>
-      <div class="choice-item"><input type="checkbox" id="iftf5" name="idealfacetype" value="こだわらない"><label for="iftf5">こだわらない</label></div>
-    </div>
-    <div id="idealfacetype-notice" class="gender-notice">性別を選択すると表示されます</div>
-  </div>
-
-  <div class="section" style="animation-delay:1.35s">
-    <div class="section-label">27</div>
-    <div class="section-title">希望する相手の性格<span class="sub-note">近いものをすべて選んでください</span></div>
-    <div class="two-col">
-      <div class="choice-item"><input type="checkbox" id="ic1" name="idealcharacter" value="優しい"><label for="ic1">優しい</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic2" name="idealcharacter" value="面白い"><label for="ic2">面白い</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic3" name="idealcharacter" value="明るい"><label for="ic3">明るい</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic4" name="idealcharacter" value="知的"><label for="ic4">知的</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic5" name="idealcharacter" value="誠実"><label for="ic5">誠実</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic6" name="idealcharacter" value="落ち着きがある"><label for="ic6">落ち着きがある</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic7" name="idealcharacter" value="情熱的"><label for="ic7">情熱的</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic8" name="idealcharacter" value="聞き上手"><label for="ic8">聞き上手</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic9" name="idealcharacter" value="天然"><label for="ic9">天然</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic10" name="idealcharacter" value="こだわらない"><label for="ic10">こだわらない</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.4s">
-    <div class="section-label">28</div>
-    <div class="section-title">学歴へのこだわり</div>
-    <div class="two-col">
-      <div class="choice-item"><input type="radio" id="ed1" name="education" value="大卒以上希望"><label for="ed1">大卒以上希望</label></div>
-      <div class="choice-item"><input type="radio" id="ed2" name="education" value="こだわらない"><label for="ed2">こだわらない</label></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.45s">
-    <div class="section-label">29</div>
-    <div class="section-title">容姿の重要度</div>
-    <div class="slider-wrap">
-      <div class="slider-labels"><span>重視しない</span><span>少し重視</span><span>かなり重視</span></div>
-      <input type="range" id="lookRange" min="1" max="5" value="3" oninput="document.getElementById('lookVal').textContent=this.value+' / 5'">
-      <div class="slider-value"><span id="lookVal">3 / 5</span></div>
-    </div>
-  </div>
-
-  <div class="section" style="animation-delay:1.5s">
-    <div class="section-label">30</div>
-    <div class="section-title">特に重視する条件<span class="sub-note">最大3つまで選んでください</span></div>
-    <div class="two-col">
-      <div class="choice-item"><input type="checkbox" id="pr1" name="priority" value="性格・人柄"><label for="pr1">性格・人柄</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr2" name="priority" value="容姿"><label for="pr2">容姿</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr3" name="priority" value="価値観の一致"><label for="pr3">価値観の一致</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr4" name="priority" value="収入・安定性"><label for="pr4">収入・安定性</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr5" name="priority" value="一緒にいて楽"><label for="pr5">一緒にいて楽</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr6" name="priority" value="フィーリング"><label for="pr6">フィーリング</label></div>
+      <div class="slider-labels">
+        <span>20代前半</span>
+        <span>20代後半</span>
+        <span>30代前半</span>
+        <span>30代後半〜</span>
+      </div>
+      <input type="range" id="ageRange" min="20" max="45" value="28" oninput="document.getElementById('ageVal').textContent=this.value">
+      <div class="slider-value"><span id="ageVal">28</span></div>
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <div class="section" style="animation-delay:1.55s">
-    <div class="section-label">31</div>
+  <!-- 自分のタイプ -->
+  <div class="section">
+    <div class="section-label">03 — About You</div>
+    <div class="section-title">自分はどんなタイプ？<span class="required">必須</span><br><small style="font-size:13px;color:var(--charcoal-muted);font-family:'Zen Kaku Gothic New'">（近いものをすべて選んでください）</small></div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="checkbox" id="t1" name="mytype" value="話すのが好き"><label for="t1">話すのが好き</label></div>
+      <div class="choice-item"><input type="checkbox" id="t2" name="mytype" value="聞くのが好き"><label for="t2">聞くのが好き</label></div>
+      <div class="choice-item"><input type="checkbox" id="t3" name="mytype" value="アクティブ派"><label for="t3">アクティブ派</label></div>
+      <div class="choice-item"><input type="checkbox" id="t4" name="mytype" value="インドア派"><label for="t4">インドア派</label></div>
+      <div class="choice-item"><input type="checkbox" id="t5" name="mytype" value="感情的"><label for="t5">感情的</label></div>
+      <div class="choice-item"><input type="checkbox" id="t6" name="mytype" value="論理的"><label for="t6">論理的</label></div>
+      <div class="choice-item"><input type="checkbox" id="t7" name="mytype" value="計画的"><label for="t7">計画的</label></div>
+      <div class="choice-item"><input type="checkbox" id="t8" name="mytype" value="自由奔放"><label for="t8">自由奔放</label></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04 — About You</div>
+    <div class="section-title">休日の過ごし方は？</div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="radio" id="w1" name="weekend" value="外で遊ぶ"><label for="w1">外で遊ぶ</label></div>
+      <div class="choice-item"><input type="radio" id="w2" name="weekend" value="家でのんびり"><label for="w2">家でのんびり</label></div>
+      <div class="choice-item"><input type="radio" id="w3" name="weekend" value="友達と過ごす"><label for="w3">友達と過ごす</label></div>
+      <div class="choice-item"><input type="radio" id="w4" name="weekend" value="1人の時間が好き"><label for="w4">1人の時間が好き</label></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 好きなタイプ -->
+  <div class="section">
+    <div class="section-label">05 — Ideal Type</div>
+    <div class="section-title">気になる人のタイプは？<span class="required">必須</span><br><small style="font-size:13px;color:var(--charcoal-muted);font-family:'Zen Kaku Gothic New'">（近いものをすべて選んでください）</small></div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="checkbox" id="i1" name="idealtype" value="話が面白い"><label for="i1">話が面白い</label></div>
+      <div class="choice-item"><input type="checkbox" id="i2" name="idealtype" value="聞き上手"><label for="i2">聞き上手</label></div>
+      <div class="choice-item"><input type="checkbox" id="i3" name="idealtype" value="落ち着いている"><label for="i3">落ち着いている</label></div>
+      <div class="choice-item"><input type="checkbox" id="i4" name="idealtype" value="エネルギッシュ"><label for="i4">エネルギッシュ</label></div>
+      <div class="choice-item"><input type="checkbox" id="i5" name="idealtype" value="知的"><label for="i5">知的</label></div>
+      <div class="choice-item"><input type="checkbox" id="i6" name="idealtype" value="感受性が豊か"><label for="i6">感受性が豊か</label></div>
+      <div class="choice-item"><input type="checkbox" id="i7" name="idealtype" value="一緒にいて楽"><label for="i7">一緒にいて楽</label></div>
+      <div class="choice-item"><input type="checkbox" id="i8" name="idealtype" value="刺激的"><label for="i8">刺激的</label></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">06 — Ideal Type</div>
+    <div class="section-title">価値観の近さと、正反対の魅力、どちらが好き？</div>
+    <div class="choice-grid">
+      <div class="choice-item"><input type="radio" id="v1" name="values" value="価値観が近い人"><label for="v1">価値観が近い人</label></div>
+      <div class="choice-item"><input type="radio" id="v2" name="values" value="正反対の人"><label for="v2">正反対な人</label></div>
+      <div class="choice-item"><input type="radio" id="v3" name="values" value="どちらでも"><label for="v3">どちらでも</label></div>
+      <div class="choice-item"><input type="radio" id="v4" name="values" value="その時次第"><label for="v4">その時次第</label></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">07 — Message</div>
     <div class="section-title">今日、どんな出会いを期待していますか？</div>
     <textarea id="message" placeholder="自由に書いてください（任意）"></textarea>
     <p class="helper">運営だけが確認します。マッチングの参考にします。</p>
@@ -536,6 +476,7 @@
 
 </div>
 
+<!-- Success -->
 <div class="success" id="successScreen">
   <div class="success-icon">✦</div>
   <h2>ありがとうございます</h2>
@@ -543,87 +484,25 @@
 </div>
 
 <script>
-function onGenderChange(gender) {
-  // 自分の情報：選んだ性別を表示
-  const selfSections = ['body', 'face', 'facetype', 'character'];
-  selfSections.forEach(s => {
-    const male = document.getElementById(s + '-male');
-    const female = document.getElementById(s + '-female');
-    const notice = document.getElementById(s + '-notice');
-    if (gender === '男性') {
-      male.classList.add('active');
-      female.classList.remove('active');
-    } else {
-      female.classList.add('active');
-      male.classList.remove('active');
-    }
-    if (notice) notice.style.display = 'none';
-  });
-
-  // 相手への希望：逆の性別を表示
-  const idealSections = ['idealbody', 'idealface', 'idealfacetype'];
-  idealSections.forEach(s => {
-    const forMale = document.getElementById(s + '-for-male');
-    const forFemale = document.getElementById(s + '-for-female');
-    const notice = document.getElementById(s + '-notice');
-    if (gender === '男性') {
-      // 男性が選んだ→相手は女性
-      forMale.classList.add('active');
-      forFemale.classList.remove('active');
-    } else {
-      // 女性が選んだ→相手は男性
-      forFemale.classList.add('active');
-      forMale.classList.remove('active');
-    }
-    if (notice) notice.style.display = 'none';
-  });
-}
-
 function handleSubmit() {
   const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+  if (!name) {
+    document.getElementById('name').focus();
+    document.getElementById('name').style.borderColor = 'rgba(201,150,122,0.8)';
+    return;
+  }
 
-  if (!name) { document.getElementById('name').style.borderColor = 'rgba(201,150,122,0.8)'; document.getElementById('name').focus(); return; }
-  if (!email) { document.getElementById('email').style.borderColor = 'rgba(201,150,122,0.8)'; document.getElementById('email').focus(); return; }
-  if (!gender) { alert('性別を選択してください'); return; }
+  const age = document.getElementById('ageRange').value;
+  const myTypes = [...document.querySelectorAll('input[name="mytype"]:checked')].map(e => e.value);
+  const weekend = document.querySelector('input[name="weekend"]:checked')?.value || '';
+  const idealTypes = [...document.querySelectorAll('input[name="idealtype"]:checked')].map(e => e.value);
+  const values = document.querySelector('input[name="values"]:checked')?.value || '';
+  const message = document.getElementById('message').value;
 
-  const data = {
-    name, email, gender,
-    age: document.getElementById('ageRange').value,
-    birthplace: document.getElementById('birthplace').value,
-    residence: document.getElementById('residence').value,
-    holiday: document.querySelector('input[name="holiday"]:checked')?.value || '',
-    occupation: document.getElementById('occupation').value,
-    company: document.getElementById('company').value,
-    income: document.getElementById('income').value,
-    height: document.getElementById('heightRange').value,
-    body: document.querySelector('input[name="body"]:checked')?.value || '',
-    face: [...document.querySelectorAll('input[name="face"]:checked')].map(e => e.value).join(', '),
-    facetype: document.querySelector('input[name="facetype"]:checked')?.value || '',
-    character: [...document.querySelectorAll('input[name="character"]:checked')].map(e => e.value).join(', '),
-    marriage: document.querySelector('input[name="marriage"]:checked')?.value || '',
-    tobacco: document.querySelector('input[name="tobacco"]:checked')?.value || '',
-    alcohol: document.querySelector('input[name="alcohol"]:checked')?.value || '',
-    hobby: [...document.querySelectorAll('input[name="hobby"]:checked')].map(e => e.value).join(', '),
-    ageMin: document.getElementById('ageMin').value,
-    ageMax: document.getElementById('ageMax').value,
-    heightMin: document.getElementById('heightMin').value,
-    heightMax: document.getElementById('heightMax').value,
-    idealbody: [...document.querySelectorAll('input[name="idealbody"]:checked')].map(e => e.value).join(', '),
-    idealAlcohol: document.querySelector('input[name="idealAlcohol"]:checked')?.value || '',
-    idealTobacco: document.querySelector('input[name="idealTobacco"]:checked')?.value || '',
-    idealface: [...document.querySelectorAll('input[name="idealface"]:checked')].map(e => e.value).join(', '),
-    idealfacetype: [...document.querySelectorAll('input[name="idealfacetype"]:checked')].map(e => e.value).join(', '),
-    idealcharacter: [...document.querySelectorAll('input[name="idealcharacter"]:checked')].map(e => e.value).join(', '),
-    education: document.querySelector('input[name="education"]:checked')?.value || '',
-    lookImportance: document.getElementById('lookRange').value,
-    priority: [...document.querySelectorAll('input[name="priority"]:checked')].map(e => e.value).join(', '),
-    message: document.getElementById('message').value,
-    submittedAt: new Date().toISOString()
-  };
+  const data = { name, age, myTypes, weekend, idealTypes, values, message, submittedAt: new Date().toISOString() };
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycAou8NRnPMVXTlN7GVg8b8mr57sZObqGW1Q4oPsTjimYA6g2ALuwsSyxy-8CiFsJDQQ/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSapLbl1PMM1G6NJJI96c2rBvQJn5Lu0ueDSbcNKcRgXFvRIYt4ZnCas33g8sK8jZSPA/exec';
+
   const btn = document.querySelector('.submit-btn');
   btn.textContent = '送信中...';
   btn.disabled = true;
@@ -636,7 +515,8 @@ function handleSubmit() {
   })
   .then(() => {
     document.getElementById('formContainer').style.display = 'none';
-    document.getElementById('successScreen').classList.add('show');
+    const success = document.getElementById('successScreen');
+    success.classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   })
   .catch(() => {
@@ -646,5 +526,6 @@ function handleSubmit() {
   });
 }
 </script>
+
 </body>
 </html>
