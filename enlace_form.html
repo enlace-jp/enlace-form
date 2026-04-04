@@ -264,6 +264,27 @@
     <p class="helper">運営のみ確認します。参加者には公開しません。</p>
   </div>
 
+  <div class="section" style="animation-delay:0.52s">
+    <div class="section-label">11</div>
+    <div class="section-title">最終学歴</div>
+    <div class="two-col">
+      <div class="choice-item"><input type="radio" id="ed1" name="myeducation" value="中学卒"><label for="ed1">中学卒</label></div>
+      <div class="choice-item"><input type="radio" id="ed2" name="myeducation" value="高校卒"><label for="ed2">高校卒</label></div>
+      <div class="choice-item"><input type="radio" id="ed3" name="myeducation" value="専門学校卒"><label for="ed3">専門学校卒</label></div>
+      <div class="choice-item"><input type="radio" id="ed4" name="myeducation" value="短大卒"><label for="ed4">短大卒</label></div>
+      <div class="choice-item"><input type="radio" id="ed5" name="myeducation" value="大学卒"><label for="ed5">大学卒</label></div>
+      <div class="choice-item"><input type="radio" id="ed6" name="myeducation" value="大学院卒"><label for="ed6">大学院卒</label></div>
+      <div class="choice-item"><input type="radio" id="ed7" name="myeducation" value="その他"><label for="ed7">その他</label></div>
+    </div>
+  </div>
+
+  <div class="section" style="animation-delay:0.54s">
+    <div class="section-label">12</div>
+    <div class="section-title">学校名</div>
+    <input type="text" id="schoolName" placeholder="例：早稲田大学（任意）">
+    <p class="helper">運営のみ確認します。参加者には公開しません。</p>
+  </div>
+
   <div class="divider"></div>
 
   <!-- ── 自分について（性別共通） ── -->
@@ -806,6 +827,8 @@ function handleSubmit() {
     occupation: document.getElementById('occupation').value,
     company: document.getElementById('company').value,
     income: document.getElementById('income').value,
+    myeducation: document.querySelector('input[name="myeducation"]:checked')?.value || '',
+    schoolName: document.getElementById('schoolName').value,
     height: gender === '男性'
       ? document.getElementById('heightRangeMale').value
       : document.getElementById('heightRangeFemale').value,
