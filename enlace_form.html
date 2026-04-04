@@ -330,34 +330,53 @@
   <!-- 顔の特徴（性別で切替） -->
   <div class="section" style="animation-delay:0.65s">
     <div class="section-label">13</div>
-    <div class="section-title">顔の特徴<span class="sub-note">近いものをすべて選んでください</span></div>
+    <div class="section-title">顔の特徴<span class="sub-note">3つ選んでください</span></div>
     <div id="face-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="fcm1" name="face" value="ぱっちりした目"><label for="fcm1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm2" name="face" value="鼻筋"><label for="fcm2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm3" name="face" value="笑顔"><label for="fcm3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm4" name="face" value="小顔"><label for="fcm4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm5" name="face" value="一重"><label for="fcm5">一重</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm6" name="face" value="短髪"><label for="fcm6">短髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm7" name="face" value="黒髪"><label for="fcm7">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm8" name="face" value="歯並び"><label for="fcm8">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm9" name="face" value="笑いジワ"><label for="fcm9">笑いジワ</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcm10" name="face" value="色気"><label for="fcm10">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm1" name="face" value="ぱっちりした目" onchange="checkLimit('face',3)"><label for="fcm1">ぱっちりした目</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm2" name="face" value="鼻筋" onchange="checkLimit('face',3)"><label for="fcm2">鼻筋</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm3" name="face" value="笑顔" onchange="checkLimit('face',3)"><label for="fcm3">笑顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm4" name="face" value="小顔" onchange="checkLimit('face',3)"><label for="fcm4">小顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm5" name="face" value="一重" onchange="checkLimit('face',3)"><label for="fcm5">一重</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm6" name="face" value="短髪" onchange="checkLimit('face',3)"><label for="fcm6">短髪</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm7" name="face" value="黒髪" onchange="checkLimit('face',3)"><label for="fcm7">黒髪</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm8" name="face" value="歯並び" onchange="checkLimit('face',3)"><label for="fcm8">歯並び</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm9" name="face" value="笑いジワ" onchange="checkLimit('face',3)"><label for="fcm9">笑いジワ</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm10" name="face" value="色気" onchange="checkLimit('face',3)"><label for="fcm10">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm11" name="face" value="彫り深い" onchange="checkLimit('face',3)"><label for="fcm11">彫り深い</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm12" name="face" value="眉毛がきれい" onchange="checkLimit('face',3)"><label for="fcm12">眉毛がきれい</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm13" name="face" value="日焼け肌" onchange="checkLimit('face',3)"><label for="fcm13">日焼け肌</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm14" name="face" value="色白" onchange="checkLimit('face',3)"><label for="fcm14">色白</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm15" name="face" value="清潔感" onchange="checkLimit('face',3)"><label for="fcm15">清潔感</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm16" name="face" value="童顔" onchange="checkLimit('face',3)"><label for="fcm16">童顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm17" name="face" value="大人っぽい" onchange="checkLimit('face',3)"><label for="fcm17">大人っぽい</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm18" name="face" value="えくぼ" onchange="checkLimit('face',3)"><label for="fcm18">えくぼ</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm19" name="face" value="目力がある" onchange="checkLimit('face',3)"><label for="fcm19">目力がある</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcm20" name="face" value="口元がきれい" onchange="checkLimit('face',3)"><label for="fcm20">口元がきれい</label></div>
     </div>
     <div id="face-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="fcf1" name="face" value="ぱっちりした目"><label for="fcf1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf2" name="face" value="鼻筋"><label for="fcf2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf3" name="face" value="笑顔"><label for="fcf3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf4" name="face" value="小顔"><label for="fcf4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf5" name="face" value="丸顔"><label for="fcf5">丸顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf6" name="face" value="ロングヘア"><label for="fcf6">ロングヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf7" name="face" value="ショートヘア"><label for="fcf7">ショートヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf8" name="face" value="黒髪"><label for="fcf8">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf9" name="face" value="歯並び"><label for="fcf9">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf10" name="face" value="えくぼ"><label for="fcf10">えくぼ</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf11" name="face" value="色白"><label for="fcf11">色白</label></div>
-      <div class="choice-item"><input type="checkbox" id="fcf12" name="face" value="色気"><label for="fcf12">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf1" name="face" value="ぱっちりした目" onchange="checkLimit('face',3)"><label for="fcf1">ぱっちりした目</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf2" name="face" value="鼻筋" onchange="checkLimit('face',3)"><label for="fcf2">鼻筋</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf3" name="face" value="笑顔" onchange="checkLimit('face',3)"><label for="fcf3">笑顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf4" name="face" value="小顔" onchange="checkLimit('face',3)"><label for="fcf4">小顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf5" name="face" value="丸顔" onchange="checkLimit('face',3)"><label for="fcf5">丸顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf6" name="face" value="ロングヘア" onchange="checkLimit('face',3)"><label for="fcf6">ロングヘア</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf7" name="face" value="ショートヘア" onchange="checkLimit('face',3)"><label for="fcf7">ショートヘア</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf8" name="face" value="黒髪" onchange="checkLimit('face',3)"><label for="fcf8">黒髪</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf9" name="face" value="歯並び" onchange="checkLimit('face',3)"><label for="fcf9">歯並び</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf10" name="face" value="えくぼ" onchange="checkLimit('face',3)"><label for="fcf10">えくぼ</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf11" name="face" value="色白" onchange="checkLimit('face',3)"><label for="fcf11">色白</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf12" name="face" value="色気" onchange="checkLimit('face',3)"><label for="fcf12">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf13" name="face" value="二重" onchange="checkLimit('face',3)"><label for="fcf13">二重</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf14" name="face" value="目力がある" onchange="checkLimit('face',3)"><label for="fcf14">目力がある</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf15" name="face" value="口元がきれい" onchange="checkLimit('face',3)"><label for="fcf15">口元がきれい</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf16" name="face" value="清潔感" onchange="checkLimit('face',3)"><label for="fcf16">清潔感</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf17" name="face" value="童顔" onchange="checkLimit('face',3)"><label for="fcf17">童顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf18" name="face" value="大人っぽい" onchange="checkLimit('face',3)"><label for="fcf18">大人っぽい</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf19" name="face" value="眉毛がきれい" onchange="checkLimit('face',3)"><label for="fcf19">眉毛がきれい</label></div>
+      <div class="choice-item"><input type="checkbox" id="fcf20" name="face" value="透明感" onchange="checkLimit('face',3)"><label for="fcf20">透明感</label></div>
     </div>
     <div id="face-notice" class="gender-notice">性別を選択すると表示されます</div>
+    <p class="helper" id="face-count" style="margin-top:10px;text-align:center;display:none">0 / 3 選択中</p>
   </div>
 
   <!-- 顔タイプ（性別で切替） -->
@@ -583,36 +602,55 @@
 
   <div class="section" style="animation-delay:1.25s">
     <div class="section-label">25</div>
-    <div class="section-title">希望する顔の特徴<span class="sub-note">近いものをすべて選んでください</span></div>
+    <div class="section-title">希望する顔の特徴<span class="sub-note">3つ選んでください</span></div>
     <!-- 男性が選ぶ→女性の顔の特徴 -->
     <div id="idealface-for-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="ifm1" name="idealface" value="ぱっちりした目"><label for="ifm1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm2" name="idealface" value="鼻筋"><label for="ifm2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm3" name="idealface" value="笑顔"><label for="ifm3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm4" name="idealface" value="小顔"><label for="ifm4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm5" name="idealface" value="丸顔"><label for="ifm5">丸顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm6" name="idealface" value="ロングヘア"><label for="ifm6">ロングヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm7" name="idealface" value="ショートヘア"><label for="ifm7">ショートヘア</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm8" name="idealface" value="黒髪"><label for="ifm8">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm9" name="idealface" value="歯並び"><label for="ifm9">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm10" name="idealface" value="えくぼ"><label for="ifm10">えくぼ</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm11" name="idealface" value="色白"><label for="ifm11">色白</label></div>
-      <div class="choice-item"><input type="checkbox" id="ifm12" name="idealface" value="色気"><label for="ifm12">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm1" name="idealface" value="ぱっちりした目" onchange="checkLimit('idealface',3)"><label for="ifm1">ぱっちりした目</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm2" name="idealface" value="鼻筋" onchange="checkLimit('idealface',3)"><label for="ifm2">鼻筋</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm3" name="idealface" value="笑顔" onchange="checkLimit('idealface',3)"><label for="ifm3">笑顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm4" name="idealface" value="小顔" onchange="checkLimit('idealface',3)"><label for="ifm4">小顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm5" name="idealface" value="丸顔" onchange="checkLimit('idealface',3)"><label for="ifm5">丸顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm6" name="idealface" value="ロングヘア" onchange="checkLimit('idealface',3)"><label for="ifm6">ロングヘア</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm7" name="idealface" value="ショートヘア" onchange="checkLimit('idealface',3)"><label for="ifm7">ショートヘア</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm8" name="idealface" value="黒髪" onchange="checkLimit('idealface',3)"><label for="ifm8">黒髪</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm9" name="idealface" value="歯並び" onchange="checkLimit('idealface',3)"><label for="ifm9">歯並び</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm10" name="idealface" value="えくぼ" onchange="checkLimit('idealface',3)"><label for="ifm10">えくぼ</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm11" name="idealface" value="色白" onchange="checkLimit('idealface',3)"><label for="ifm11">色白</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm12" name="idealface" value="色気" onchange="checkLimit('idealface',3)"><label for="ifm12">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm13" name="idealface" value="二重" onchange="checkLimit('idealface',3)"><label for="ifm13">二重</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm14" name="idealface" value="目力がある" onchange="checkLimit('idealface',3)"><label for="ifm14">目力がある</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm15" name="idealface" value="口元がきれい" onchange="checkLimit('idealface',3)"><label for="ifm15">口元がきれい</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm16" name="idealface" value="清潔感" onchange="checkLimit('idealface',3)"><label for="ifm16">清潔感</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm17" name="idealface" value="童顔" onchange="checkLimit('idealface',3)"><label for="ifm17">童顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm18" name="idealface" value="大人っぽい" onchange="checkLimit('idealface',3)"><label for="ifm18">大人っぽい</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm19" name="idealface" value="眉毛がきれい" onchange="checkLimit('idealface',3)"><label for="ifm19">眉毛がきれい</label></div>
+      <div class="choice-item"><input type="checkbox" id="ifm20" name="idealface" value="透明感" onchange="checkLimit('idealface',3)"><label for="ifm20">透明感</label></div>
     </div>
     <!-- 女性が選ぶ→男性の顔の特徴 -->
     <div id="idealface-for-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="iff1" name="idealface" value="ぱっちりした目"><label for="iff1">ぱっちりした目</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff2" name="idealface" value="鼻筋"><label for="iff2">鼻筋</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff3" name="idealface" value="笑顔"><label for="iff3">笑顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff4" name="idealface" value="小顔"><label for="iff4">小顔</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff5" name="idealface" value="一重"><label for="iff5">一重</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff6" name="idealface" value="短髪"><label for="iff6">短髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff7" name="idealface" value="黒髪"><label for="iff7">黒髪</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff8" name="idealface" value="歯並び"><label for="iff8">歯並び</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff9" name="idealface" value="笑いジワ"><label for="iff9">笑いジワ</label></div>
-      <div class="choice-item"><input type="checkbox" id="iff10" name="idealface" value="色気"><label for="iff10">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff1" name="idealface" value="ぱっちりした目" onchange="checkLimit('idealface',3)"><label for="iff1">ぱっちりした目</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff2" name="idealface" value="鼻筋" onchange="checkLimit('idealface',3)"><label for="iff2">鼻筋</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff3" name="idealface" value="笑顔" onchange="checkLimit('idealface',3)"><label for="iff3">笑顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff4" name="idealface" value="小顔" onchange="checkLimit('idealface',3)"><label for="iff4">小顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff5" name="idealface" value="一重" onchange="checkLimit('idealface',3)"><label for="iff5">一重</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff6" name="idealface" value="短髪" onchange="checkLimit('idealface',3)"><label for="iff6">短髪</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff7" name="idealface" value="黒髪" onchange="checkLimit('idealface',3)"><label for="iff7">黒髪</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff8" name="idealface" value="歯並び" onchange="checkLimit('idealface',3)"><label for="iff8">歯並び</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff9" name="idealface" value="笑いジワ" onchange="checkLimit('idealface',3)"><label for="iff9">笑いジワ</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff10" name="idealface" value="色気" onchange="checkLimit('idealface',3)"><label for="iff10">色気</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff11" name="idealface" value="彫り深い" onchange="checkLimit('idealface',3)"><label for="iff11">彫り深い</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff12" name="idealface" value="眉毛がきれい" onchange="checkLimit('idealface',3)"><label for="iff12">眉毛がきれい</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff13" name="idealface" value="日焼け肌" onchange="checkLimit('idealface',3)"><label for="iff13">日焼け肌</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff14" name="idealface" value="色白" onchange="checkLimit('idealface',3)"><label for="iff14">色白</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff15" name="idealface" value="清潔感" onchange="checkLimit('idealface',3)"><label for="iff15">清潔感</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff16" name="idealface" value="童顔" onchange="checkLimit('idealface',3)"><label for="iff16">童顔</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff17" name="idealface" value="大人っぽい" onchange="checkLimit('idealface',3)"><label for="iff17">大人っぽい</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff18" name="idealface" value="えくぼ" onchange="checkLimit('idealface',3)"><label for="iff18">えくぼ</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff19" name="idealface" value="目力がある" onchange="checkLimit('idealface',3)"><label for="iff19">目力がある</label></div>
+      <div class="choice-item"><input type="checkbox" id="iff20" name="idealface" value="口元がきれい" onchange="checkLimit('idealface',3)"><label for="iff20">口元がきれい</label></div>
     </div>
     <div id="idealface-notice" class="gender-notice">性別を選択すると表示されます</div>
+    <p class="helper" id="idealface-count" style="margin-top:10px;text-align:center;display:none">0 / 3 選択中</p>
   </div>
 
   <div class="section" style="animation-delay:1.3s">
@@ -669,8 +707,8 @@
     <div class="section-label">28</div>
     <div class="section-title">学歴へのこだわり</div>
     <div class="two-col">
-      <div class="choice-item"><input type="radio" id="ed1" name="education" value="大卒以上希望"><label for="ed1">大卒以上希望</label></div>
-      <div class="choice-item"><input type="radio" id="ed2" name="education" value="こだわらない"><label for="ed2">こだわらない</label></div>
+      <div class="choice-item"><input type="radio" id="ied1" name="education" value="大卒以上希望"><label for="ied1">大卒以上希望</label></div>
+      <div class="choice-item"><input type="radio" id="ied2" name="education" value="こだわらない"><label for="ied2">こだわらない</label></div>
     </div>
   </div>
 
@@ -774,6 +812,10 @@ function checkLimit(name, max) {
   const all = [...document.querySelectorAll(`input[name="${name}"]`)];
   const count = checked.length;
   // カウント表示更新
+  ['', '-f', '-count', '-count-f'].forEach(suffix => {
+    const el = document.getElementById(name + '-count' + suffix);
+    if (el) { el.textContent = count + ' / ' + max + ' 選択中'; el.style.display = 'block'; }
+  });
   const countEl = document.getElementById(name + '-count');
   const countElF = document.getElementById(name + '-count-f');
   if (countEl) countEl.textContent = count + ' / ' + max + ' 選択中';
@@ -867,7 +909,14 @@ function onGenderChange(gender) {
   });
 }
 
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.style.borderColor = 'rgba(201,150,122,0.8)';
+}
+
 function handleSubmit() {
+  const errors = [];
+
   const lastName = document.getElementById('lastName').value.trim();
   const firstName = document.getElementById('firstName').value.trim();
   const lastNameKana = document.getElementById('lastNameKana').value.trim();
@@ -876,11 +925,58 @@ function handleSubmit() {
   const email = document.getElementById('email').value.trim();
   const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
 
-  if (!lastName || !firstName) { alert('本名を入力してください'); return; }
-  if (!lastNameKana || !firstNameKana) { alert('読み仮名を入力してください'); return; }
-  if (!name) { document.getElementById('name').style.borderColor = 'rgba(201,150,122,0.8)'; document.getElementById('name').focus(); return; }
-  if (!email) { document.getElementById('email').style.borderColor = 'rgba(201,150,122,0.8)'; document.getElementById('email').focus(); return; }
-  if (!gender) { alert('性別を選択してください'); return; }
+  if (!lastName || !firstName) errors.push('本名を入力してください');
+  if (!lastNameKana || !firstNameKana) errors.push('読み仮名を入力してください');
+  if (!name) errors.push('ニックネームを入力してください');
+  if (!email) errors.push('メールアドレスを入力してください');
+  if (!gender) errors.push('性別を選択してください');
+
+  const birthYear = document.getElementById('birthYear').value;
+  const birthMonth = document.getElementById('birthMonth').value;
+  const birthDay = document.getElementById('birthDay').value;
+  if (!birthYear || !birthMonth || !birthDay) errors.push('生年月日を選択してください');
+
+  if (!document.getElementById('birthplace').value) errors.push('出身地を選択してください');
+  if (!document.getElementById('residence').value) errors.push('居住地を選択してください');
+  if (!document.querySelector('input[name="holiday"]:checked')) errors.push('休日を選択してください');
+  if (!document.getElementById('occupation').value) errors.push('職種を選択してください');
+  if (!document.querySelector('input[name="myeducation"]:checked')) errors.push('最終学歴を選択してください');
+  if (!document.querySelector('input[name="body"]:checked')) errors.push('体形を選択してください');
+
+  const faceChecked = [...document.querySelectorAll('input[name="face"]:checked')];
+  if (faceChecked.length < 3) errors.push(`顔の特徴を3つ選んでください（現在${faceChecked.length}個）`);
+
+  if (!document.querySelector('input[name="facetype"]:checked')) errors.push('顔タイプを選択してください');
+
+  const charChecked = [...document.querySelectorAll('input[name="character"]:checked')];
+  if (charChecked.length < 5) errors.push(`自分の性格を5つ選んでください（現在${charChecked.length}個）`);
+
+  if (!document.querySelector('input[name="marriage"]:checked')) errors.push('結婚への意思を選択してください');
+  if (!document.querySelector('input[name="tobacco"]:checked')) errors.push('タバコを選択してください');
+  if (!document.querySelector('input[name="alcohol"]:checked')) errors.push('お酒を選択してください');
+
+  const hobbyChecked = [...document.querySelectorAll('input[name="hobby"]:checked')];
+  if (hobbyChecked.length < 3) errors.push(`趣味を3つ選んでください（現在${hobbyChecked.length}個）`);
+
+  if (!document.querySelector('input[name="idealbody"]:checked')) errors.push('希望する体形を選択してください');
+  if (!document.querySelector('input[name="idealAlcohol"]:checked')) errors.push('相手のお酒の希望を選択してください');
+  if (!document.querySelector('input[name="idealTobacco"]:checked')) errors.push('相手のタバコの希望を選択してください');
+
+  const idealfaceChecked = [...document.querySelectorAll('input[name="idealface"]:checked')];
+  if (idealfaceChecked.length < 3) errors.push(`希望する顔の特徴を3つ選んでください（現在${idealfaceChecked.length}個）`);
+
+  if (!document.querySelector('input[name="idealfacetype"]:checked')) errors.push('希望する顔タイプを選択してください');
+
+  const idealcharChecked = [...document.querySelectorAll('input[name="idealcharacter"]:checked')];
+  if (idealcharChecked.length < 5) errors.push(`希望する相手の性格を5つ選んでください（現在${idealcharChecked.length}個）`);
+
+  if (!document.querySelector('input[name="education"]:checked')) errors.push('学歴へのこだわりを選択してください');
+
+  if (errors.length > 0) {
+    alert('以下の項目を入力してください：\n\n・' + errors.join('\n・'));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
 
   const data = {
     lastName, firstName, lastNameKana, firstNameKana, name, email, gender,
