@@ -7,23 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #1a1a1a;
-  --bg2: #242424;
-  --bg3: #2e2e2e;
-  --rose: #c9967a;
-  --rose-light: #e8b49a;
-  --rose-pale: rgba(201,150,122,0.12);
-  --cream: #faf8f5;
-  --muted: #888;
-  --border: rgba(201,150,122,0.2);
-  --green: #4caf89;
-  --amber: #e8a838;
-  --red: #e86060;
+  --bg: #1a1a1a; --bg2: #242424; --bg3: #2e2e2e;
+  --rose: #c9967a; --rose-light: #e8b49a; --rose-pale: rgba(201,150,122,0.12);
+  --cream: #faf8f5; --muted: #888; --border: rgba(201,150,122,0.2);
+  --green: #4caf89; --amber: #e8a838; --red: #e86060; --blue: #6b9fd4;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic New',sans-serif; font-weight:300; min-height:100vh; }
-
-/* Header */
 .header { background:var(--bg2); border-bottom:1px solid var(--border); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
 .logo { font-family:'Cormorant Garamond',serif; font-size:24px; letter-spacing:0.15em; color:var(--cream); }
 .logo span { color:var(--rose); }
@@ -31,98 +21,84 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
 .refresh-btn { padding:8px 20px; border:1px solid var(--border); border-radius:3px; background:transparent; color:var(--rose); font-family:'Zen Kaku Gothic New',sans-serif; font-size:12px; letter-spacing:0.1em; cursor:pointer; transition:all 0.2s; }
 .refresh-btn:hover { background:var(--rose-pale); }
 .last-updated { font-size:11px; color:var(--muted); }
-
-/* Nav tabs */
-.nav { display:flex; gap:0; border-bottom:1px solid var(--border); padding:0 32px; background:var(--bg2); }
+.nav { display:flex; border-bottom:1px solid var(--border); padding:0 32px; background:var(--bg2); }
 .nav-tab { padding:14px 24px; font-size:12px; letter-spacing:0.1em; color:var(--muted); cursor:pointer; border-bottom:2px solid transparent; transition:all 0.2s; }
 .nav-tab.active { color:var(--rose); border-bottom-color:var(--rose); }
 .nav-tab:hover { color:var(--cream); }
-
-/* Main */
 .main { padding:32px; max-width:1400px; margin:0 auto; }
-
-/* Stats row */
 .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:32px; }
 .stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:20px 24px; }
 .stat-label { font-size:11px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
 .stat-value { font-family:'Cormorant Garamond',serif; font-size:36px; color:var(--rose); font-weight:300; }
 .stat-sub { font-size:11px; color:var(--muted); margin-top:4px; }
-
-/* Section */
-.section-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); font-weight:300; margin-bottom:20px; letter-spacing:0.05em; }
-
-/* Participant cards */
+.section-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); font-weight:300; margin-bottom:20px; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
 .participants-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-bottom:40px; }
-.p-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:20px; transition:border-color 0.2s; cursor:pointer; }
+.p-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:20px; cursor:pointer; transition:border-color 0.2s; }
 .p-card:hover { border-color:var(--rose); }
-.p-card.male { border-left:3px solid #6b9fd4; }
+.p-card.male { border-left:3px solid var(--blue); }
 .p-card.female { border-left:3px solid var(--rose); }
 .p-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.p-name { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--cream); }
+.p-name { font-family:'Cormorant Garamond',serif; font-size:20px; }
 .p-gender { font-size:10px; letter-spacing:0.15em; padding:3px 8px; border-radius:2px; }
-.p-gender.male { background:rgba(107,159,212,0.15); color:#6b9fd4; }
+.p-gender.male { background:rgba(107,159,212,0.15); color:var(--blue); }
 .p-gender.female { background:var(--rose-pale); color:var(--rose); }
 .p-detail { font-size:12px; color:var(--muted); margin-bottom:4px; }
 .p-detail span { color:var(--cream); }
 .p-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:10px; }
 .p-tag { font-size:10px; padding:2px 8px; border:1px solid var(--border); border-radius:2px; color:var(--muted); }
-
-/* Score table */
 .score-table-wrap { overflow-x:auto; margin-bottom:40px; }
 .score-table { width:100%; border-collapse:collapse; font-size:13px; }
 .score-table th { background:var(--bg3); color:var(--muted); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:12px 16px; text-align:left; font-weight:400; border-bottom:1px solid var(--border); }
-.score-table td { padding:14px 16px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.score-table td { padding:12px 16px; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
 .score-table tr:hover td { background:rgba(255,255,255,0.02); }
 .score-bar { display:flex; align-items:center; gap:8px; }
 .score-bar-track { flex:1; height:3px; background:rgba(255,255,255,0.08); border-radius:2px; min-width:60px; }
-.score-bar-fill { height:100%; border-radius:2px; transition:width 0.5s; }
-.score-bar-fill.type { background:var(--rose); }
-.score-bar-fill.compat { background:#6b9fd4; }
-.score-num { font-family:'Cormorant Garamond',serif; font-size:16px; min-width:32px; text-align:right; }
-.badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; padding:3px 8px; border-radius:2px; font-weight:400; }
+.score-bar-fill { height:100%; border-radius:2px; }
+.score-bar-fill.compat { background:var(--blue); }
+.score-bar-fill.priority { background:var(--rose); }
+.score-bar-fill.total { background:var(--green); }
+.score-num { font-family:'Cormorant Garamond',serif; font-size:18px; min-width:36px; text-align:right; }
+.badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; padding:3px 8px; border-radius:2px; }
 .badge.high { background:rgba(76,175,137,0.15); color:var(--green); }
 .badge.mid { background:rgba(232,168,56,0.15); color:var(--amber); }
 .badge.low { background:rgba(232,96,96,0.1); color:var(--red); }
-
-/* Match panel */
+.detail-row { display:none; background:var(--bg3); }
+.detail-row.open { display:table-row; }
+.detail-box { padding:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.detail-section { background:var(--bg2); border-radius:6px; padding:14px; }
+.detail-title { font-size:10px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:10px; }
+.detail-item { display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:12px; }
+.detail-item:last-child { border-bottom:none; }
+.detail-item-label { color:var(--muted); }
+.detail-item-score { font-family:'Cormorant Garamond',serif; font-size:16px; color:var(--cream); }
+.detail-item-score.boosted { color:var(--rose); }
 .match-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:40px; }
 .match-card { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:24px; }
 .match-card-title { font-size:11px; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:16px; }
-.match-pair { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.match-pair { display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
 .match-pair:last-child { border-bottom:none; }
 .match-person { flex:1; }
 .match-person-name { font-size:14px; color:var(--cream); margin-bottom:2px; }
 .match-person-sub { font-size:11px; color:var(--muted); }
-.match-arrow { color:var(--rose); font-size:18px; opacity:0.6; }
-.match-scores { text-align:right; }
-.match-score-row { font-size:11px; color:var(--muted); }
-.match-score-row span { color:var(--rose); font-family:'Cormorant Garamond',serif; font-size:14px; }
-
-/* Loading */
 .loading { text-align:center; padding:80px; color:var(--muted); font-size:13px; }
 .loading-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--rose); margin:0 3px; animation:blink 1.2s infinite; }
 .loading-dot:nth-child(2) { animation-delay:0.2s; }
 .loading-dot:nth-child(3) { animation-delay:0.4s; }
 @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
-
-/* Empty */
 .empty { text-align:center; padding:60px; color:var(--muted); }
-.empty-icon { font-family:'Cormorant Garamond',serif; font-size:48px; color:var(--rose); opacity:0.3; margin-bottom:16px; }
-
-/* Tab content */
-.tab-content { display:none; }
-.tab-content.active { display:block; }
-
-/* Detail modal */
 .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:none; align-items:center; justify-content:center; padding:24px; }
 .modal-overlay.open { display:flex; }
 .modal { background:var(--bg2); border:1px solid var(--border); border-radius:12px; width:100%; max-width:560px; max-height:80vh; overflow-y:auto; padding:32px; }
 .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
-.modal-name { font-family:'Cormorant Garamond',serif; font-size:28px; color:var(--cream); }
+.modal-name { font-family:'Cormorant Garamond',serif; font-size:28px; }
 .modal-close { background:none; border:none; color:var(--muted); font-size:24px; cursor:pointer; }
 .modal-row { display:flex; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04); font-size:13px; }
 .modal-key { color:var(--muted); width:140px; flex-shrink:0; }
 .modal-val { color:var(--cream); flex:1; }
+.expand-btn { background:none; border:none; color:var(--muted); cursor:pointer; font-size:12px; padding:4px 8px; }
+.expand-btn:hover { color:var(--rose); }
 </style>
 </head>
 <body>
@@ -142,8 +118,6 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
 </div>
 
 <div class="main">
-
-  <!-- Stats -->
   <div class="stats">
     <div class="stat-card">
       <div class="stat-label">総参加者</div>
@@ -152,7 +126,7 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
     </div>
     <div class="stat-card">
       <div class="stat-label">男性</div>
-      <div class="stat-value" id="statMale" style="color:#6b9fd4">—</div>
+      <div class="stat-value" id="statMale" style="color:var(--blue)">—</div>
       <div class="stat-sub">人</div>
     </div>
     <div class="stat-card">
@@ -163,11 +137,10 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
     <div class="stat-card">
       <div class="stat-label">高相性ペア</div>
       <div class="stat-value" id="statPairs" style="color:var(--green)">—</div>
-      <div class="stat-sub">組（総合70点以上）</div>
+      <div class="stat-sub">組（70点以上）</div>
     </div>
   </div>
 
-  <!-- Tab: 参加者一覧 -->
   <div class="tab-content active" id="tab-participants">
     <div class="section-title">参加者一覧</div>
     <div id="participantsList" class="participants-grid">
@@ -175,7 +148,6 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
     </div>
   </div>
 
-  <!-- Tab: 相性スコア -->
   <div class="tab-content" id="tab-scores">
     <div class="section-title">相性スコア一覧</div>
     <div class="score-table-wrap">
@@ -184,11 +156,11 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
           <tr>
             <th>男性</th>
             <th>女性</th>
-            <th>好みスコア（男→女）</th>
-            <th>好みスコア（女→男）</th>
-            <th>相性スコア</th>
-            <th>総合</th>
+            <th>相性スコア（70点）</th>
+            <th>優先条件スコア（30点）</th>
+            <th>総合（100点）</th>
             <th>判定</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="scoreTableBody">
@@ -198,19 +170,16 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
     </div>
   </div>
 
-  <!-- Tab: マッチング管理 -->
   <div class="tab-content" id="tab-matching">
     <div class="section-title">マッチング管理</div>
     <div class="match-grid" id="matchingGrid">
       <div class="loading"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>
     </div>
   </div>
-
 </div>
 
-<!-- Detail Modal -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal" id="modalContent">
+  <div class="modal">
     <div class="modal-header">
       <div class="modal-name" id="modalName">—</div>
       <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">×</button>
@@ -224,16 +193,250 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9TH3Z66ql_J99AOUis
 let allParticipants = [];
 let scores = [];
 
-// タブ切替
-function switchTab(tab) {
-  document.querySelectorAll('.nav-tab').forEach((t,i) => {
-    t.classList.toggle('active', ['participants','scores','matching'][i] === tab);
-  });
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+// 補完型ペア
+const COMPLEMENT_PAIRS = [
+  ['甘え上手', 'リード力がある'],
+  ['聞き上手', '話し上手'],
+  ['癒し系', '情熱的'],
+  ['天然', 'しっかり者'],
+  ['穏やか', '明るい'],
+  ['マイペース', '積極的'],
+];
+
+// 類似型
+const SIMILAR_TYPES = ['誠実', '好奇心旺盛', 'ポジティブ', '仕事好き', '知的', 'オシャレ好き', '気前がいい', '面白い'];
+
+// 年収を数値に変換
+function incomeToNum(str) {
+  if (!str || str === '答えたくない') return -1;
+  const map = { '300万未満': 250, '300〜400万': 350, '400〜500万': 450, '500〜600万': 550, '600〜800万': 700, '800〜1000万': 900, '1000万以上': 1200 };
+  return map[str] || -1;
 }
 
-// データ読み込み
+// 希望年収の最低ラインを数値に変換
+function idealIncomeToNum(str) {
+  if (!str || str === 'こだわらない') return 0;
+  const map = { '300万以上': 300, '400万以上': 400, '500万以上': 500, '600万以上': 600, '800万以上': 800, '1000万以上': 1000 };
+  return map[str] || 0;
+}
+
+// 12項目の相性スコア（各約5.83点、合計70点）
+function calcCompatScore(viewer, target) {
+  const BASE = 70 / 12;
+  let details = {};
+
+  // ①性格（補完型15点・類似型10点、5個固定）
+  const vChar = (viewer['性格'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const tChar = (target['性格'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  let charScore = 0;
+  vChar.forEach(c => {
+    if (SIMILAR_TYPES.includes(c) && tChar.includes(c)) charScore += 10;
+    else {
+      const pair = COMPLEMENT_PAIRS.find(p => p.includes(c));
+      if (pair) {
+        const comp = pair[0] === c ? pair[1] : pair[0];
+        if (tChar.includes(comp)) charScore += 15;
+      }
+    }
+  });
+  const charRate = Math.min(1, charScore / 75);
+  details['性格'] = { score: charRate * BASE, rate: charRate, boosted: false };
+
+  // ②趣味（3個固定）
+  const vHobby = (viewer['趣味'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const tHobby = (target['趣味'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const hobbyMatch = vHobby.filter(h => tHobby.includes(h)).length;
+  const hobbyRate = hobbyMatch / 3;
+  details['趣味'] = { score: hobbyRate * BASE, rate: hobbyRate, boosted: false };
+
+  // ③顔タイプ
+  const vFaceType = viewer['希望顔タイプ'] || '';
+  const tFaceType = target['顔タイプ'] || '';
+  const faceTypeRate = (vFaceType === 'こだわらない' || (vFaceType && tFaceType === vFaceType)) ? 1 : 0;
+  details['顔タイプ'] = { score: faceTypeRate * BASE, rate: faceTypeRate, boosted: false };
+
+  // ④顔の特徴（3個固定）
+  const vFace = (viewer['希望顔の特徴'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const tFace = (target['顔の特徴'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const faceMatch = vFace.length > 0 ? vFace.filter(f => tFace.includes(f)).length / Math.min(vFace.length, 3) : 0;
+  details['顔の特徴'] = { score: faceMatch * BASE, rate: faceMatch, boosted: false };
+
+  // ⑤体形
+  const vBody = (viewer['希望体形'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const tBody = target['体形'] || '';
+  const bodyRate = (vBody.includes('こだわらない') || vBody.some(b => tBody.includes(b))) ? 1 : 0;
+  details['体形'] = { score: bodyRate * BASE, rate: bodyRate, boosted: false };
+
+  // ⑥結婚意思
+  const vMarriage = viewer['結婚意思'] || '';
+  const tMarriage = target['結婚意思'] || '';
+  const marriageRate = vMarriage === tMarriage ? 1 : (vMarriage === 'こだわらない' || tMarriage === 'こだわらない') ? 0.5 : 0;
+  details['結婚意思'] = { score: marriageRate * BASE, rate: marriageRate, boosted: false };
+
+  // ⑦年齢
+  const tAge = parseInt(target['年齢']) || 0;
+  const vAgeMin = parseInt(viewer['希望年齢下限']) || 0;
+  const vAgeMax = parseInt(viewer['希望年齢上限']) || 99;
+  const ageRate = (tAge >= vAgeMin && tAge <= vAgeMax) ? 1 : 0;
+  details['年齢'] = { score: ageRate * BASE, rate: ageRate, boosted: false };
+
+  // ⑧身長
+  const tHeight = parseInt(target['身長']) || 0;
+  const vHeightMin = parseInt(viewer['希望身長下限']) || 0;
+  const vHeightMax = parseInt(viewer['希望身長上限']) || 999;
+  const heightRate = (tHeight >= vHeightMin && tHeight <= vHeightMax) ? 1 : 0;
+  details['身長'] = { score: heightRate * BASE, rate: heightRate, boosted: false };
+
+  // ⑨お酒
+  const vAlcohol = viewer['希望お酒'] || '';
+  const tAlcohol = target['お酒'] || '';
+  let alcoholRate = 0;
+  if (vAlcohol === 'こだわらない') alcoholRate = 1;
+  else if (vAlcohol === '飲まない人がいい' && tAlcohol === '飲まない') alcoholRate = 1;
+  else if (vAlcohol === '一緒に飲みたい' && (tAlcohol === 'たまに飲む' || tAlcohol === 'よく飲む')) alcoholRate = 1;
+  details['お酒'] = { score: alcoholRate * BASE, rate: alcoholRate, boosted: false };
+
+  // ⑩タバコ
+  const vTobacco = viewer['希望タバコ'] || '';
+  const tTobacco = target['タバコ'] || '';
+  const tobaccoRate = (vTobacco === 'こだわらない' || (vTobacco.includes('吸わない') && tTobacco === '吸わない')) ? 1 : 0;
+  details['タバコ'] = { score: tobaccoRate * BASE, rate: tobaccoRate, boosted: false };
+
+  // ⑪学歴
+  const vEdu = viewer['学歴へのこだわり'] || '';
+  const tEdu = target['最終学歴'] || '';
+  let eduRate = 0;
+  if (vEdu === 'こだわらない') eduRate = 1;
+  else if (vEdu === '大卒以上希望' && (tEdu === '大学卒' || tEdu === '大学院卒')) eduRate = 1;
+  details['学歴'] = { score: eduRate * BASE, rate: eduRate, boosted: false };
+
+  // ⑫収入
+  const vIncome = idealIncomeToNum(viewer['希望年収'] || '');
+  const tIncome = incomeToNum(target['年収'] || '');
+  let incomeRate = 0;
+  if (vIncome === 0) incomeRate = 1;
+  else if (tIncome === -1) incomeRate = 0;
+  else if (tIncome >= vIncome) incomeRate = 1;
+  details['収入'] = { score: incomeRate * BASE, rate: incomeRate, boosted: false };
+
+  // 優先条件の倍率適用
+  const priorityMap = {
+    '顔・見た目': ['顔タイプ', '顔の特徴', '体形'],
+    '性格・人柄': ['性格'],
+    '価値観の一致': ['結婚意思', 'お酒', 'タバコ'],
+    '趣味・共通の話題': ['趣味'],
+    '結婚への真剣さ': ['結婚意思'],
+    '収入・安定性': ['収入'],
+    '学歴・知性': ['学歴'],
+    '年齢': ['年齢'],
+    '誠実さ・信頼感': ['性格'],
+  };
+
+  const priorities = [
+    { key: viewer['重視条件1位'] || '', mult: 1 + (15 / 70), label: '1位' },
+    { key: viewer['重視条件2位'] || '', mult: 1 + (10 / 70), label: '2位' },
+    { key: viewer['重視条件3位'] || '', mult: 1 + (5 / 70), label: '3位' },
+  ];
+
+  priorities.forEach(({ key, mult, label }) => {
+    const targets = priorityMap[key] || [];
+    targets.forEach(t => {
+      if (details[t]) {
+        details[t].score *= mult;
+        details[t].boosted = true;
+        details[t].boostLabel = label;
+      }
+    });
+  });
+
+  // 合計（最大70点に正規化）
+  let total = Object.values(details).reduce((sum, d) => sum + d.score, 0);
+  // 倍率で70点を超える可能性があるので正規化
+  const maxPossible = BASE * 12 + (15 + 10 + 5);
+  total = Math.min(70, total * 70 / maxPossible);
+
+  return { total: Math.round(total), details };
+}
+
+// 優先条件スコア（30点満点）
+function calcPriorityScore(viewer, target) {
+  const priorityMap = {
+    '顔・見た目': () => {
+      const ftR = (viewer['希望顔タイプ'] === 'こだわらない' || target['顔タイプ'] === viewer['希望顔タイプ']) ? 1 : 0;
+      const vFace = (viewer['希望顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+      const tFace = (target['顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
+      const ffR = vFace.length > 0 ? vFace.filter(f=>tFace.includes(f)).length / Math.min(vFace.length,3) : 0;
+      const vBody = (viewer['希望体形']||'').split(',').map(s=>s.trim()).filter(Boolean);
+      const bR = (vBody.includes('こだわらない') || vBody.some(b=>target['体形']?.includes(b))) ? 1 : 0;
+      return (ftR + ffR + bR) / 3;
+    },
+    '性格・人柄': () => {
+      const vChar = (viewer['性格']||'').split(',').map(s=>s.trim()).filter(Boolean);
+      const tChar = (target['性格']||'').split(',').map(s=>s.trim()).filter(Boolean);
+      let s = 0;
+      vChar.forEach(c => {
+        if (SIMILAR_TYPES.includes(c) && tChar.includes(c)) s += 10;
+        else { const p = COMPLEMENT_PAIRS.find(p=>p.includes(c)); if(p) { const comp=p[0]===c?p[1]:p[0]; if(tChar.includes(comp)) s+=15; } }
+      });
+      return Math.min(1, s/75);
+    },
+    '価値観の一致': () => {
+      const mR = viewer['結婚意思'] === target['結婚意思'] ? 1 : 0.5;
+      const vA = viewer['希望お酒']||''; const tA = target['お酒']||'';
+      const aR = vA==='こだわらない'?1:(vA.includes('飲まない')&&tA==='飲まない')?1:(vA.includes('飲みたい')&&tA!=='飲まない')?1:0;
+      const vT = viewer['希望タバコ']||''; const tT = target['タバコ']||'';
+      const tR = vT==='こだわらない'?1:(vT.includes('吸わない')&&tT==='吸わない')?1:0;
+      return (mR + aR + tR) / 3;
+    },
+    '趣味・共通の話題': () => {
+      const vH=(viewer['趣味']||'').split(',').map(s=>s.trim()).filter(Boolean);
+      const tH=(target['趣味']||'').split(',').map(s=>s.trim()).filter(Boolean);
+      return vH.filter(h=>tH.includes(h)).length/3;
+    },
+    '結婚への真剣さ': () => viewer['結婚意思']===target['結婚意思']?1:0,
+    '収入・安定性': () => {
+      const vi=idealIncomeToNum(viewer['希望年収']||''); const ti=incomeToNum(target['年収']||'');
+      if(vi===0) return 1; if(ti===-1) return 0; return ti>=vi?1:0;
+    },
+    '学歴・知性': () => {
+      const ve=viewer['学歴へのこだわり']||''; const te=target['最終学歴']||'';
+      if(ve==='こだわらない') return 1;
+      return (ve==='大卒以上希望'&&(te==='大学卒'||te==='大学院卒'))?1:0;
+    },
+    '年齢': () => {
+      const ta=parseInt(target['年齢'])||0;
+      const min=parseInt(viewer['希望年齢下限'])||0; const max=parseInt(viewer['希望年齢上限'])||99;
+      return (ta>=min&&ta<=max)?1:0;
+    },
+    '誠実さ・信頼感': () => (target['性格']||'').includes('誠実')?1:0,
+  };
+
+  const p1 = viewer['重視条件1位'] || '';
+  const p2 = viewer['重視条件2位'] || '';
+  const p3 = viewer['重視条件3位'] || '';
+
+  const r1 = priorityMap[p1] ? priorityMap[p1]() : 0;
+  const r2 = priorityMap[p2] ? priorityMap[p2]() : 0;
+  const r3 = priorityMap[p3] ? priorityMap[p3]() : 0;
+
+  const score = Math.round(r1 * 15 + r2 * 10 + r3 * 5);
+
+  return {
+    total: score,
+    details: [
+      { label: `1位「${p1||'未選択'}」`, rate: r1, score: Math.round(r1*15), max: 15 },
+      { label: `2位「${p2||'未選択'}」`, rate: r2, score: Math.round(r2*10), max: 10 },
+      { label: `3位「${p3||'未選択'}」`, rate: r3, score: Math.round(r3*5), max: 5 },
+    ]
+  };
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach((t,i) => t.classList.toggle('active', ['participants','scores','matching'][i]===tab));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+
 async function loadData() {
   document.getElementById('lastUpdated').textContent = '読み込み中...';
   try {
@@ -246,250 +449,186 @@ async function loadData() {
     }
   } catch(e) {
     document.getElementById('lastUpdated').textContent = '読み込みエラー';
-    document.getElementById('participantsList').innerHTML = '<div class="empty"><div class="empty-icon">✦</div><p>データを取得できませんでした</p></div>';
+    document.getElementById('participantsList').innerHTML = '<div class="empty">データを取得できませんでした</div>';
   }
 }
 
 function renderAll() {
-  const males = allParticipants.filter(p => p['性別'] === '男性');
-  const females = allParticipants.filter(p => p['性別'] === '女性');
-
-  // Stats
+  const males = allParticipants.filter(p => p['性別']==='男性');
+  const females = allParticipants.filter(p => p['性別']==='女性');
   document.getElementById('statTotal').textContent = allParticipants.length;
   document.getElementById('statMale').textContent = males.length;
   document.getElementById('statFemale').textContent = females.length;
 
-  // Scores
   scores = [];
   males.forEach(m => {
     females.forEach(f => {
-      const typeM2F = calcTypeScore(m, f);
-      const typeF2M = calcTypeScore(f, m);
-      const compat = calcCompatScore(m, f);
-      const total = Math.round((typeM2F + typeF2M) / 2 * 0.4 + compat * 0.6);
-      scores.push({ male: m, female: f, typeM2F, typeF2M, compat, total });
+      const mCompat = calcCompatScore(m, f);
+      const fCompat = calcCompatScore(f, m);
+      const mPriority = calcPriorityScore(m, f);
+      const fPriority = calcPriorityScore(f, m);
+      const compatTotal = Math.round((mCompat.total + fCompat.total) / 2);
+      const priorityTotal = Math.round((mPriority.total + fPriority.total) / 2);
+      const total = compatTotal + priorityTotal;
+      scores.push({ male: m, female: f, mCompat, fCompat, mPriority, fPriority, compatTotal, priorityTotal, total });
     });
   });
   scores.sort((a,b) => b.total - a.total);
-
-  const highPairs = scores.filter(s => s.total >= 70).length;
-  document.getElementById('statPairs').textContent = highPairs;
+  document.getElementById('statPairs').textContent = scores.filter(s => s.total >= 70).length;
 
   renderParticipants();
   renderScores();
   renderMatching();
 }
 
-// 参加者一覧
 function renderParticipants() {
   const el = document.getElementById('participantsList');
-  if (!allParticipants.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">✦</div><p>まだ回答がありません</p></div>';
-    return;
-  }
-  el.innerHTML = allParticipants.map((p, i) => {
-    const gender = p['性別'] === '男性' ? 'male' : 'female';
-    const nickname = p['ニックネーム'] || p['姓'] || '—';
-    const hobbies = (p['趣味'] || '').split(',').slice(0,3).map(h => `<span class="p-tag">${h.trim()}</span>`).join('');
-    return `
-      <div class="p-card ${gender}" onclick="openModal(${i})">
-        <div class="p-card-header">
-          <div class="p-name">${nickname}</div>
-          <span class="p-gender ${gender}">${p['性別'] || '—'}</span>
-        </div>
-        <div class="p-detail">年齢 <span>${p['年齢'] || '—'}</span></div>
-        <div class="p-detail">居住地 <span>${p['居住地'] || '—'}</span></div>
-        <div class="p-detail">職種 <span>${p['職種'] || '—'}</span></div>
-        <div class="p-detail">結婚意思 <span>${p['結婚意思'] || '—'}</span></div>
-        <div class="p-tags">${hobbies}</div>
-      </div>`;
+  if (!allParticipants.length) { el.innerHTML = '<div class="empty">まだ回答がありません</div>'; return; }
+  el.innerHTML = allParticipants.map((p,i) => {
+    const gender = p['性別']==='男性'?'male':'female';
+    const nickname = p['ニックネーム']||p['姓']||'—';
+    const hobbies = (p['趣味']||'').split(',').slice(0,3).map(h=>`<span class="p-tag">${h.trim()}</span>`).join('');
+    return `<div class="p-card ${gender}" onclick="openModal(${i})">
+      <div class="p-card-header">
+        <div class="p-name">${nickname}</div>
+        <span class="p-gender ${gender}">${p['性別']||'—'}</span>
+      </div>
+      <div class="p-detail">年齢 <span>${p['年齢']||'—'}</span></div>
+      <div class="p-detail">居住地 <span>${p['居住地']||'—'}</span></div>
+      <div class="p-detail">職種 <span>${p['職種']||'—'}</span></div>
+      <div class="p-detail">結婚意思 <span>${p['結婚意思']||'—'}</span></div>
+      <div class="p-detail">重視条件 <span>${p['重視条件1位']||'—'} > ${p['重視条件2位']||'—'} > ${p['重視条件3位']||'—'}</span></div>
+      <div class="p-tags">${hobbies}</div>
+    </div>`;
   }).join('');
 }
 
-// スコアテーブル
 function renderScores() {
   const tbody = document.getElementById('scoreTableBody');
-  if (!scores.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="empty"><div class="empty-icon" style="font-size:24px">✦</div><p>男女両方の回答が必要です</p></td></tr>';
-    return;
-  }
-  tbody.innerHTML = scores.map(s => {
-    const badge = s.total >= 70 ? '<span class="badge high">🔥 高相性</span>' :
-                  s.total >= 50 ? '<span class="badge mid">◎ 良好</span>' :
-                  '<span class="badge low">△ 普通</span>';
-    return `
-      <tr>
-        <td>${s.male['ニックネーム'] || s.male['姓'] || '—'}</td>
-        <td>${s.female['ニックネーム'] || s.female['姓'] || '—'}</td>
-        <td>
-          <div class="score-bar">
-            <div class="score-bar-track"><div class="score-bar-fill type" style="width:${s.typeM2F}%"></div></div>
-            <div class="score-num" style="color:var(--rose)">${s.typeM2F}</div>
+  if (!scores.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">男女両方の回答が必要です</td></tr>'; return; }
+  tbody.innerHTML = scores.map((s,i) => {
+    const badge = s.total>=70?'<span class="badge high">🔥 高相性</span>':s.total>=55?'<span class="badge mid">◎ 良好</span>':s.total>=40?'<span class="badge low">△ 普通</span>':'<span style="color:var(--muted);font-size:12px">— 普通以下</span>';
+    return `<tr onclick="toggleDetail(${i})">
+      <td>${s.male['ニックネーム']||s.male['姓']||'—'}</td>
+      <td>${s.female['ニックネーム']||s.female['姓']||'—'}</td>
+      <td>
+        <div class="score-bar">
+          <div class="score-bar-track"><div class="score-bar-fill compat" style="width:${s.compatTotal/70*100}%"></div></div>
+          <div class="score-num" style="color:var(--blue)">${s.compatTotal}</div>
+        </div>
+      </td>
+      <td>
+        <div class="score-bar">
+          <div class="score-bar-track"><div class="score-bar-fill priority" style="width:${s.priorityTotal/30*100}%"></div></div>
+          <div class="score-num" style="color:var(--rose)">${s.priorityTotal}</div>
+        </div>
+      </td>
+      <td>
+        <div class="score-bar">
+          <div class="score-bar-track"><div class="score-bar-fill total" style="width:${s.total}%"></div></div>
+          <div class="score-num" style="color:var(--green)">${s.total}</div>
+        </div>
+      </td>
+      <td>${badge}</td>
+      <td><button class="expand-btn">詳細 ▾</button></td>
+    </tr>
+    <tr class="detail-row" id="detail-${i}">
+      <td colspan="7">
+        <div class="detail-box">
+          <div class="detail-section">
+            <div class="detail-title">相性スコア内訳（男性→女性）</div>
+            ${Object.entries(s.mCompat.details).map(([k,v])=>`
+              <div class="detail-item">
+                <span class="detail-item-label">${k}${v.boosted?` <span style="color:var(--rose);font-size:10px">${v.boostLabel}↑</span>`:''}</span>
+                <span class="detail-item-score ${v.boosted?'boosted':''}">${Math.round(v.score*10)/10}pt</span>
+              </div>`).join('')}
           </div>
-        </td>
-        <td>
-          <div class="score-bar">
-            <div class="score-bar-track"><div class="score-bar-fill type" style="width:${s.typeF2M}%"></div></div>
-            <div class="score-num" style="color:var(--rose)">${s.typeF2M}</div>
+          <div class="detail-section">
+            <div class="detail-title">優先条件スコア内訳</div>
+            <div style="margin-bottom:8px;font-size:11px;color:var(--muted)">男性の優先条件</div>
+            ${s.mPriority.details.map(d=>`
+              <div class="detail-item">
+                <span class="detail-item-label">${d.label}</span>
+                <span class="detail-item-score">${d.score}/${d.max}pt</span>
+              </div>`).join('')}
+            <div style="margin:8px 0;font-size:11px;color:var(--muted)">女性の優先条件</div>
+            ${s.fPriority.details.map(d=>`
+              <div class="detail-item">
+                <span class="detail-item-label">${d.label}</span>
+                <span class="detail-item-score">${d.score}/${d.max}pt</span>
+              </div>`).join('')}
           </div>
-        </td>
-        <td>
-          <div class="score-bar">
-            <div class="score-bar-track"><div class="score-bar-fill compat" style="width:${s.compat}%"></div></div>
-            <div class="score-num" style="color:#6b9fd4">${s.compat}</div>
-          </div>
-        </td>
-        <td><span style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">${s.total}</span></td>
-        <td>${badge}</td>
-      </tr>`;
+        </div>
+      </td>
+    </tr>`;
   }).join('');
 }
 
-// マッチング管理
+function toggleDetail(i) {
+  const row = document.getElementById('detail-'+i);
+  row.classList.toggle('open');
+}
+
 function renderMatching() {
   const el = document.getElementById('matchingGrid');
-  const males = allParticipants.filter(p => p['性別'] === '男性');
-  const females = allParticipants.filter(p => p['性別'] === '女性');
+  const males = allParticipants.filter(p=>p['性別']==='男性');
+  const females = allParticipants.filter(p=>p['性別']==='女性');
+  if (!males.length||!females.length) { el.innerHTML='<div class="empty">男女両方の回答が必要です</div>'; return; }
 
-  if (!males.length || !females.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-icon">✦</div><p>男女両方の回答が必要です</p></div>';
-    return;
-  }
-
-  // 各男性のベストマッチ
   const maleMatches = males.map(m => {
-    const best = scores.filter(s => s.male === m).sort((a,b) => b.total - a.total).slice(0,3);
-    return { person: m, matches: best };
+    const best = scores.filter(s=>s.male===m).sort((a,b)=>b.total-a.total).slice(0,3);
+    return { person:m, matches:best };
   });
-
-  // 各女性のベストマッチ
   const femaleMatches = females.map(f => {
-    const best = scores.filter(s => s.female === f).sort((a,b) => b.total - a.total).slice(0,3);
-    return { person: f, matches: best };
+    const best = scores.filter(s=>s.female===f).sort((a,b)=>b.total-a.total).slice(0,3);
+    return { person:f, matches:best };
   });
 
   el.innerHTML = `
     <div class="match-card">
-      <div class="match-card-title">男性 → おすすめ女性TOP3</div>
-      ${maleMatches.map(({person, matches}) => `
+      <div class="match-card-title">男性のおすすめ女性TOP3</div>
+      ${maleMatches.map(({person,matches})=>`
         <div style="margin-bottom:16px">
-          <div style="font-size:13px;color:var(--rose);margin-bottom:8px">${person['ニックネーム'] || person['姓'] || '—'}</div>
-          ${matches.map((s,i) => `
+          <div style="font-size:13px;color:var(--rose);margin-bottom:8px">${person['ニックネーム']||person['姓']||'—'}</div>
+          ${matches.map((s,i)=>`
             <div class="match-pair">
               <div class="match-person">
-                <div class="match-person-name">${i+1}. ${s.female['ニックネーム'] || s.female['姓'] || '—'}</div>
-                <div class="match-person-sub">好み:${Math.round((s.typeM2F+s.typeF2M)/2)}点 相性:${s.compat}点</div>
+                <div class="match-person-name">${i+1}. ${s.female['ニックネーム']||s.female['姓']||'—'}</div>
+                <div class="match-person-sub">相性:${s.compatTotal}点 優先:${s.priorityTotal}点</div>
               </div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=50?'var(--amber)':'var(--muted)'}">${s.total}</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=55?'var(--amber)':'var(--muted)'}">${s.total}</div>
             </div>`).join('')}
         </div>`).join('')}
     </div>
     <div class="match-card">
-      <div class="match-card-title">女性 → おすすめ男性TOP3</div>
-      ${femaleMatches.map(({person, matches}) => `
+      <div class="match-card-title">女性のおすすめ男性TOP3</div>
+      ${femaleMatches.map(({person,matches})=>`
         <div style="margin-bottom:16px">
-          <div style="font-size:13px;color:var(--rose);margin-bottom:8px">${person['ニックネーム'] || person['姓'] || '—'}</div>
-          ${matches.map((s,i) => `
+          <div style="font-size:13px;color:var(--rose);margin-bottom:8px">${person['ニックネーム']||person['姓']||'—'}</div>
+          ${matches.map((s,i)=>`
             <div class="match-pair">
               <div class="match-person">
-                <div class="match-person-name">${i+1}. ${s.male['ニックネーム'] || s.male['姓'] || '—'}</div>
-                <div class="match-person-sub">好み:${Math.round((s.typeM2F+s.typeF2M)/2)}点 相性:${s.compat}点</div>
+                <div class="match-person-name">${i+1}. ${s.male['ニックネーム']||s.male['姓']||'—'}</div>
+                <div class="match-person-sub">相性:${s.compatTotal}点 優先:${s.priorityTotal}点</div>
               </div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=50?'var(--amber)':'var(--muted)'}">${s.total}</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=55?'var(--amber)':'var(--muted)'}">${s.total}</div>
             </div>`).join('')}
         </div>`).join('')}
     </div>`;
 }
 
-// 好みのタイプスコア計算
-function calcTypeScore(viewer, target) {
-  let score = 0;
-  // 顔タイプ（30点）
-  const idealFaceType = (viewer['希望顔タイプ'] || '').split(',').map(s=>s.trim());
-  const targetFaceType = target['顔タイプ'] || '';
-  if (idealFaceType.some(t => targetFaceType.includes(t))) score += 30;
-  // 体形（25点）
-  const idealBody = (viewer['希望体形'] || '').split(',').map(s=>s.trim());
-  const targetBody = target['体形'] || '';
-  if (idealBody.some(b => targetBody.includes(b))) score += 25;
-  // 顔の特徴（45点・割合計算）
-  const idealFace = (viewer['希望顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const targetFace = (target['顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  if (idealFace.length > 0) {
-    const matches = idealFace.filter(f => targetFace.includes(f)).length;
-    score += Math.round(45 * matches / idealFace.length);
-  }
-  return Math.min(100, score);
-}
-
-// 相性スコア計算
-function calcCompatScore(male, female) {
-  let score = 0;
-  // 性格合致率（40点）
-  const mIdealChar = (male['希望性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const fChar = (female['性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const fIdealChar = (female['希望性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const mChar = (male['性格'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  let charScore = 0;
-  if (mIdealChar.length > 0) charScore += 20 * mIdealChar.filter(c => fChar.includes(c)).length / mIdealChar.length;
-  if (fIdealChar.length > 0) charScore += 20 * fIdealChar.filter(c => mChar.includes(c)).length / fIdealChar.length;
-  score += Math.round(charScore);
-  // 趣味合致率（25点）
-  const mHobby = (male['趣味'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const fHobby = (female['趣味'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-  const allHobbies = [...new Set([...mHobby, ...fHobby])];
-  if (allHobbies.length > 0) {
-    const common = mHobby.filter(h => fHobby.includes(h)).length;
-    score += Math.round(25 * common / Math.max(mHobby.length, fHobby.length, 1));
-  }
-  // お酒（10点）
-  const mAlcohol = male['お酒'] || '';
-  const fAlcohol = female['お酒'] || '';
-  const mIdealAlcohol = male['希望お酒'] || '';
-  const fIdealAlcohol = female['希望お酒'] || '';
-  if (mIdealAlcohol === 'こだわらない' || fAlcohol.includes(mIdealAlcohol.replace('人がいい','').replace('一緒に飲みたい',''))) score += 5;
-  if (fIdealAlcohol === 'こだわらない' || mAlcohol.includes(fIdealAlcohol.replace('人がいい','').replace('一緒に飲みたい',''))) score += 5;
-  // タバコ（10点）
-  const mTobacco = male['タバコ'] || '';
-  const fTobacco = female['タバコ'] || '';
-  const mIdealTobacco = male['希望タバコ'] || '';
-  const fIdealTobacco = female['希望タバコ'] || '';
-  if (mIdealTobacco === 'こだわらない' || (mIdealTobacco.includes('吸わない') && fTobacco === '吸わない')) score += 5;
-  if (fIdealTobacco === 'こだわらない' || (fIdealTobacco.includes('吸わない') && mTobacco === '吸わない')) score += 5;
-  // 年齢範囲（10点）
-  const mAge = parseInt(male['年齢']) || 0;
-  const fAge = parseInt(female['年齢']) || 0;
-  const mAgeMin = parseInt(male['希望年齢下限']) || 0;
-  const mAgeMax = parseInt(male['希望年齢上限']) || 99;
-  const fAgeMin = parseInt(female['希望年齢下限']) || 0;
-  const fAgeMax = parseInt(female['希望年齢上限']) || 99;
-  if (fAge >= mAgeMin && fAge <= mAgeMax) score += 5;
-  if (mAge >= fAgeMin && mAge <= fAgeMax) score += 5;
-  // 身長範囲（5点）
-  const mHeight = parseInt(male['身長']) || 0;
-  const fHeight = parseInt(female['身長']) || 0;
-  const fHeightMin = parseInt(female['希望身長下限']) || 0;
-  const fHeightMax = parseInt(female['希望身長上限']) || 999;
-  if (mHeight >= fHeightMin && mHeight <= fHeightMax) score += 5;
-  return Math.min(100, score);
-}
-
-// モーダル
 function openModal(index) {
   const p = allParticipants[index];
-  document.getElementById('modalName').textContent = p['ニックネーム'] || p['姓'] || '—';
-  const keys = ['姓','名','姓（ふりがな）','名（ふりがな）','性別','年齢','生年月日','出身地','居住地','休日','職種','会社名','年収','身長','体形','顔タイプ','性格','結婚意思','タバコ','お酒','趣味','希望年齢下限','希望年齢上限','希望体形','希望性格','メッセージ'];
-  document.getElementById('modalBody').innerHTML = keys.map(k => p[k] ? `<div class="modal-row"><div class="modal-key">${k}</div><div class="modal-val">${p[k]}</div></div>` : '').join('');
+  document.getElementById('modalName').textContent = p['ニックネーム']||p['姓']||'—';
+  const keys = ['姓','名','姓（ふりがな）','名（ふりがな）','性別','年齢','生年月日','出身地','居住地','休日','職種','年収','最終学歴','身長','体形','顔タイプ','性格','結婚意思','タバコ','お酒','趣味','重視条件1位','重視条件2位','重視条件3位','メッセージ'];
+  document.getElementById('modalBody').innerHTML = keys.map(k => p[k]?`<div class="modal-row"><div class="modal-key">${k}</div><div class="modal-val">${p[k]}</div></div>`:'').join('');
   document.getElementById('modalOverlay').classList.add('open');
 }
 
 function closeModal(e) {
-  if (e.target === document.getElementById('modalOverlay')) {
-    document.getElementById('modalOverlay').classList.remove('open');
-  }
+  if (e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open');
 }
 
-// 初期読み込み
 loadData();
 </script>
 </body>
