@@ -70,7 +70,39 @@
   .success-icon { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--rose-gold); margin-bottom: 24px; opacity: 0.7; }
   .success h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 28px; color: var(--cream); margin-bottom: 12px; }
   .success p { font-size: 13px; color: var(--charcoal-muted); line-height: 1.8; }
-  .range-slider-wrap { padding: 8px 0; }
+  .priority-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--rose-gold);
+    color: var(--charcoal);
+    font-size: 11px;
+    font-weight: 400;
+    margin-right: 6px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+  .priority-item label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .priority-item.selected label {
+    border-color: var(--rose-gold);
+    background: rgba(201, 150, 122, 0.12);
+    color: var(--rose-gold-light);
+  }
+  .priority-item.selected .priority-rank {
+    opacity: 1;
+  }
+  .priority-item.disabled label {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
   .range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--charcoal-muted); margin-bottom: 12px; }
   .range-value { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--rose-gold); font-weight: 300; margin-top: 16px; }
   /* Range slider thumbs */
@@ -724,15 +756,58 @@
 
   <div class="section" style="animation-delay:1.5s">
     <div class="section-label">30</div>
-    <div class="section-title">特に重視する条件<span class="sub-note">最大3つまで選んでください</span></div>
-    <div class="two-col">
-      <div class="choice-item"><input type="checkbox" id="pr1" name="priority" value="性格・人柄"><label for="pr1">性格・人柄</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr2" name="priority" value="容姿"><label for="pr2">容姿</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr3" name="priority" value="価値観の一致"><label for="pr3">価値観の一致</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr4" name="priority" value="収入・安定性"><label for="pr4">収入・安定性</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr5" name="priority" value="一緒にいて楽"><label for="pr5">一緒にいて楽</label></div>
-      <div class="choice-item"><input type="checkbox" id="pr6" name="priority" value="フィーリング"><label for="pr6">フィーリング</label></div>
+    <div class="section-title">特に重視する条件<span class="sub-note">重要な順に3つ選んでください（選んだ順に1位・2位・3位になります）</span></div>
+    <div class="two-col" id="priorityGrid">
+      <div class="choice-item priority-item" data-value="顔・見た目">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>顔・見た目
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="性格・人柄">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>性格・人柄
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="価値観の一致">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>価値観の一致
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="趣味・共通の話題">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>趣味・共通の話題
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="結婚への真剣さ">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>結婚への真剣さ
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="収入・安定性">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>収入・安定性
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="学歴・知性">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>学歴・知性
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="年齢">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>年齢
+        </label>
+      </div>
+      <div class="choice-item priority-item" data-value="誠実さ・信頼感">
+        <label onclick="togglePriority(this)">
+          <span class="priority-rank"></span>誠実さ・信頼感
+        </label>
+      </div>
     </div>
+    <p class="helper" id="priority-count" style="margin-top:10px;text-align:center">0 / 3 選択中</p>
+    <input type="hidden" id="priority1" value="">
+    <input type="hidden" id="priority2" value="">
+    <input type="hidden" id="priority3" value="">
   </div>
 
   <div class="divider"></div>
@@ -806,6 +881,49 @@ window.addEventListener('DOMContentLoaded', () => {
   dualRange('age');
   dualRange('height');
 });
+
+const priorityOrder = [];
+
+function togglePriority(label) {
+  const item = label.closest('.priority-item');
+  const value = item.dataset.value;
+
+  if (item.classList.contains('selected')) {
+    // 選択解除
+    const idx = priorityOrder.indexOf(value);
+    priorityOrder.splice(idx, 1);
+    item.classList.remove('selected');
+  } else {
+    // 3個以上は選べない
+    if (priorityOrder.length >= 3) return;
+    priorityOrder.push(value);
+    item.classList.add('selected');
+  }
+
+  // 全アイテムの順位表示を更新
+  document.querySelectorAll('.priority-item').forEach(el => {
+    const v = el.dataset.value;
+    const rank = el.querySelector('.priority-rank');
+    const rankIdx = priorityOrder.indexOf(v);
+    if (rankIdx >= 0) {
+      rank.textContent = rankIdx + 1;
+      el.classList.add('selected');
+      el.classList.remove('disabled');
+    } else {
+      rank.textContent = '';
+      el.classList.remove('selected');
+      el.classList.toggle('disabled', priorityOrder.length >= 3);
+    }
+  });
+
+  // hiddenフィールドに保存
+  document.getElementById('priority1').value = priorityOrder[0] || '';
+  document.getElementById('priority2').value = priorityOrder[1] || '';
+  document.getElementById('priority3').value = priorityOrder[2] || '';
+
+  // カウント表示
+  document.getElementById('priority-count').textContent = priorityOrder.length + ' / 3 選択中';
+}
 
 function checkLimit(name, max) {
   const checked = [...document.querySelectorAll(`input[name="${name}"]:checked`)];
@@ -1013,7 +1131,9 @@ function handleSubmit() {
     idealcharacter: [...document.querySelectorAll('input[name="idealcharacter"]:checked')].map(e => e.value).join(', '),
     education: document.querySelector('input[name="education"]:checked')?.value || '',
     lookImportance: document.getElementById('lookRange').value,
-    priority: [...document.querySelectorAll('input[name="priority"]:checked')].map(e => e.value).join(', '),
+    priority1: document.getElementById('priority1').value,
+    priority2: document.getElementById('priority2').value,
+    priority3: document.getElementById('priority3').value,
     message: document.getElementById('message').value,
     submittedAt: new Date().toISOString()
   };
