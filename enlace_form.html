@@ -379,37 +379,61 @@
     <div id="facetype-notice" class="gender-notice">性別を選択すると表示されます</div>
   </div>
 
-  <!-- 性格（性別で切替） -->
+  <!-- 性格（共通20項目・5個必須） -->
   <div class="section" style="animation-delay:0.75s">
     <div class="section-label">15</div>
-    <div class="section-title">性格<span class="sub-note">近いものをすべて選んでください</span></div>
-    <div id="character-male" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="chm1" name="character" value="優しい"><label for="chm1">優しい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm2" name="character" value="面白い"><label for="chm2">面白い</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm3" name="character" value="明るい"><label for="chm3">明るい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm4" name="character" value="知的"><label for="chm4">知的</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm5" name="character" value="誠実"><label for="chm5">誠実</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm6" name="character" value="落ち着きがある"><label for="chm6">落ち着きがある</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm7" name="character" value="情熱的"><label for="chm7">情熱的</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm8" name="character" value="気前がいい"><label for="chm8">気前がいい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm9" name="character" value="仕事好き"><label for="chm9">仕事好き</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm10" name="character" value="好奇心旺盛"><label for="chm10">好奇心旺盛</label></div>
-      <div class="choice-item"><input type="checkbox" id="chm11" name="character" value="聞き上手"><label for="chm11">聞き上手</label></div>
-    </div>
-    <div id="character-female" class="gender-section two-col">
-      <div class="choice-item"><input type="checkbox" id="chf1" name="character" value="優しい"><label for="chf1">優しい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf2" name="character" value="明るい"><label for="chf2">明るい</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf3" name="character" value="天然"><label for="chf3">天然</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf4" name="character" value="しっかり者"><label for="chf4">しっかり者</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf5" name="character" value="甘え上手"><label for="chf5">甘え上手</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf6" name="character" value="誠実"><label for="chf6">誠実</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf7" name="character" value="癒し系"><label for="chf7">癒し系</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf8" name="character" value="好奇心旺盛"><label for="chf8">好奇心旺盛</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf9" name="character" value="聞き上手"><label for="chf9">聞き上手</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf10" name="character" value="情熱的"><label for="chf10">情熱的</label></div>
-      <div class="choice-item"><input type="checkbox" id="chf11" name="character" value="オシャレ好き"><label for="chf11">オシャレ好き</label></div>
-    </div>
+    <div class="section-title">自分の性格<span class="sub-note">自分に近いものを5つ選んでください</span></div>
     <div id="character-notice" class="gender-notice">性別を選択すると表示されます</div>
+    <div id="character-male" class="gender-section">
+      <div class="two-col">
+        <div class="choice-item"><input type="checkbox" id="ch1" name="character" value="誠実" onchange="checkLimit('character',5)"><label for="ch1">誠実</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch2" name="character" value="好奇心旺盛" onchange="checkLimit('character',5)"><label for="ch2">好奇心旺盛</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch3" name="character" value="ポジティブ" onchange="checkLimit('character',5)"><label for="ch3">ポジティブ</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch4" name="character" value="仕事好き" onchange="checkLimit('character',5)"><label for="ch4">仕事好き</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch5" name="character" value="知的" onchange="checkLimit('character',5)"><label for="ch5">知的</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch6" name="character" value="オシャレ好き" onchange="checkLimit('character',5)"><label for="ch6">オシャレ好き</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch7" name="character" value="甘え上手" onchange="checkLimit('character',5)"><label for="ch7">甘え上手</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch8" name="character" value="リード力がある" onchange="checkLimit('character',5)"><label for="ch8">リード力がある</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch9" name="character" value="聞き上手" onchange="checkLimit('character',5)"><label for="ch9">聞き上手</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch10" name="character" value="話し上手" onchange="checkLimit('character',5)"><label for="ch10">話し上手</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch11" name="character" value="癒し系" onchange="checkLimit('character',5)"><label for="ch11">癒し系</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch12" name="character" value="情熱的" onchange="checkLimit('character',5)"><label for="ch12">情熱的</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch13" name="character" value="天然" onchange="checkLimit('character',5)"><label for="ch13">天然</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch14" name="character" value="しっかり者" onchange="checkLimit('character',5)"><label for="ch14">しっかり者</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch15" name="character" value="穏やか" onchange="checkLimit('character',5)"><label for="ch15">穏やか</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch16" name="character" value="明るい" onchange="checkLimit('character',5)"><label for="ch16">明るい</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch17" name="character" value="マイペース" onchange="checkLimit('character',5)"><label for="ch17">マイペース</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch18" name="character" value="積極的" onchange="checkLimit('character',5)"><label for="ch18">積極的</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch19" name="character" value="気前がいい" onchange="checkLimit('character',5)"><label for="ch19">気前がいい</label></div>
+        <div class="choice-item"><input type="checkbox" id="ch20" name="character" value="面白い" onchange="checkLimit('character',5)"><label for="ch20">面白い</label></div>
+      </div>
+      <p class="helper" id="character-count" style="margin-top:10px;text-align:center">0 / 5 選択中</p>
+    </div>
+    <div id="character-female" class="gender-section">
+      <div class="two-col">
+        <div class="choice-item"><input type="checkbox" id="chf1" name="character" value="誠実" onchange="checkLimit('character',5)"><label for="chf1">誠実</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf2" name="character" value="好奇心旺盛" onchange="checkLimit('character',5)"><label for="chf2">好奇心旺盛</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf3" name="character" value="ポジティブ" onchange="checkLimit('character',5)"><label for="chf3">ポジティブ</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf4" name="character" value="仕事好き" onchange="checkLimit('character',5)"><label for="chf4">仕事好き</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf5" name="character" value="知的" onchange="checkLimit('character',5)"><label for="chf5">知的</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf6" name="character" value="オシャレ好き" onchange="checkLimit('character',5)"><label for="chf6">オシャレ好き</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf7" name="character" value="甘え上手" onchange="checkLimit('character',5)"><label for="chf7">甘え上手</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf8" name="character" value="リード力がある" onchange="checkLimit('character',5)"><label for="chf8">リード力がある</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf9" name="character" value="聞き上手" onchange="checkLimit('character',5)"><label for="chf9">聞き上手</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf10" name="character" value="話し上手" onchange="checkLimit('character',5)"><label for="chf10">話し上手</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf11" name="character" value="癒し系" onchange="checkLimit('character',5)"><label for="chf11">癒し系</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf12" name="character" value="情熱的" onchange="checkLimit('character',5)"><label for="chf12">情熱的</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf13" name="character" value="天然" onchange="checkLimit('character',5)"><label for="chf13">天然</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf14" name="character" value="しっかり者" onchange="checkLimit('character',5)"><label for="chf14">しっかり者</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf15" name="character" value="穏やか" onchange="checkLimit('character',5)"><label for="chf15">穏やか</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf16" name="character" value="明るい" onchange="checkLimit('character',5)"><label for="chf16">明るい</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf17" name="character" value="マイペース" onchange="checkLimit('character',5)"><label for="chf17">マイペース</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf18" name="character" value="積極的" onchange="checkLimit('character',5)"><label for="chf18">積極的</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf19" name="character" value="気前がいい" onchange="checkLimit('character',5)"><label for="chf19">気前がいい</label></div>
+        <div class="choice-item"><input type="checkbox" id="chf20" name="character" value="面白い" onchange="checkLimit('character',5)"><label for="chf20">面白い</label></div>
+      </div>
+      <p class="helper" id="character-count-f" style="margin-top:10px;text-align:center">0 / 5 選択中</p>
+    </div>
   </div>
 
   <div class="section" style="animation-delay:0.8s">
@@ -445,27 +469,38 @@
 
   <div class="section" style="animation-delay:0.95s">
     <div class="section-label">19</div>
-    <div class="section-title">趣味<span class="sub-note">近いものをすべて選んでください</span></div>
+    <div class="section-title">趣味<span class="sub-note">3つ選んでください</span></div>
     <div class="two-col">
-      <div class="choice-item"><input type="checkbox" id="hb1" name="hobby" value="グルメ"><label for="hb1">グルメ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb2" name="hobby" value="お酒"><label for="hb2">お酒</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb3" name="hobby" value="旅行・お出かけ"><label for="hb3">旅行・お出かけ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb4" name="hobby" value="アウトドア・ドライブ"><label for="hb4">アウトドア・ドライブ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb5" name="hobby" value="映画・ドラマ"><label for="hb5">映画・ドラマ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb6" name="hobby" value="テレビ・エンタメ"><label for="hb6">テレビ・エンタメ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb7" name="hobby" value="ファッション"><label for="hb7">ファッション</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb8" name="hobby" value="写真・アート・インテリア"><label for="hb8">写真・アート・インテリア</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb9" name="hobby" value="読書・学び"><label for="hb9">読書・学び</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb10" name="hobby" value="アニメ・マンガ"><label for="hb10">アニメ・マンガ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb11" name="hobby" value="ゲーム・娯楽"><label for="hb11">ゲーム・娯楽</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb12" name="hobby" value="音楽・楽器"><label for="hb12">音楽・楽器</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb13" name="hobby" value="スポーツ"><label for="hb13">スポーツ</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb14" name="hobby" value="美容・健康"><label for="hb14">美容・健康</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb15" name="hobby" value="動物・ペット"><label for="hb15">動物・ペット</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb16" name="hobby" value="心理・占い"><label for="hb16">心理・占い</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb17" name="hobby" value="料理"><label for="hb17">料理</label></div>
-      <div class="choice-item"><input type="checkbox" id="hb18" name="hobby" value="カフェ巡り"><label for="hb18">カフェ巡り</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb1" name="hobby" value="グルメ" onchange="checkLimit('hobby',3)"><label for="hb1">グルメ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb2" name="hobby" value="お酒" onchange="checkLimit('hobby',3)"><label for="hb2">お酒</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb3" name="hobby" value="旅行・お出かけ" onchange="checkLimit('hobby',3)"><label for="hb3">旅行・お出かけ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb4" name="hobby" value="アウトドア・ドライブ" onchange="checkLimit('hobby',3)"><label for="hb4">アウトドア・ドライブ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb5" name="hobby" value="映画・ドラマ" onchange="checkLimit('hobby',3)"><label for="hb5">映画・ドラマ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb6" name="hobby" value="テレビ・エンタメ" onchange="checkLimit('hobby',3)"><label for="hb6">テレビ・エンタメ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb7" name="hobby" value="ファッション" onchange="checkLimit('hobby',3)"><label for="hb7">ファッション</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb8" name="hobby" value="写真・アート・インテリア" onchange="checkLimit('hobby',3)"><label for="hb8">写真・アート・インテリア</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb9" name="hobby" value="読書・学び" onchange="checkLimit('hobby',3)"><label for="hb9">読書・学び</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb10" name="hobby" value="アニメ・マンガ" onchange="checkLimit('hobby',3)"><label for="hb10">アニメ・マンガ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb11" name="hobby" value="ゲーム・娯楽" onchange="checkLimit('hobby',3)"><label for="hb11">ゲーム・娯楽</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb12" name="hobby" value="音楽・楽器" onchange="checkLimit('hobby',3)"><label for="hb12">音楽・楽器</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb13" name="hobby" value="スポーツ" onchange="checkLimit('hobby',3)"><label for="hb13">スポーツ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb14" name="hobby" value="美容・健康" onchange="checkLimit('hobby',3)"><label for="hb14">美容・健康</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb15" name="hobby" value="動物・ペット" onchange="checkLimit('hobby',3)"><label for="hb15">動物・ペット</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb16" name="hobby" value="心理・占い" onchange="checkLimit('hobby',3)"><label for="hb16">心理・占い</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb17" name="hobby" value="料理" onchange="checkLimit('hobby',3)"><label for="hb17">料理</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb18" name="hobby" value="カフェ巡り" onchange="checkLimit('hobby',3)"><label for="hb18">カフェ巡り</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb19" name="hobby" value="ショッピング" onchange="checkLimit('hobby',3)"><label for="hb19">ショッピング</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb20" name="hobby" value="ライブ・フェス" onchange="checkLimit('hobby',3)"><label for="hb20">ライブ・フェス</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb21" name="hobby" value="筋トレ・ジム" onchange="checkLimit('hobby',3)"><label for="hb21">筋トレ・ジム</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb22" name="hobby" value="ダンス" onchange="checkLimit('hobby',3)"><label for="hb22">ダンス</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb23" name="hobby" value="登山・キャンプ" onchange="checkLimit('hobby',3)"><label for="hb23">登山・キャンプ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb24" name="hobby" value="温泉・サウナ" onchange="checkLimit('hobby',3)"><label for="hb24">温泉・サウナ</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb25" name="hobby" value="推し活・アイドル" onchange="checkLimit('hobby',3)"><label for="hb25">推し活・アイドル</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb26" name="hobby" value="ボードゲーム" onchange="checkLimit('hobby',3)"><label for="hb26">ボードゲーム</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb27" name="hobby" value="DIY・ものづくり" onchange="checkLimit('hobby',3)"><label for="hb27">DIY・ものづくり</label></div>
+      <div class="choice-item"><input type="checkbox" id="hb28" name="hobby" value="語学・海外" onchange="checkLimit('hobby',3)"><label for="hb28">語学・海外</label></div>
     </div>
+    <p class="helper" id="hobby-count" style="margin-top:10px;text-align:center">0 / 3 選択中</p>
   </div>
 
   <div class="divider"></div>
@@ -604,19 +639,30 @@
 
   <div class="section" style="animation-delay:1.35s">
     <div class="section-label">27</div>
-    <div class="section-title">希望する相手の性格<span class="sub-note">近いものをすべて選んでください</span></div>
+    <div class="section-title">希望する相手の性格<span class="sub-note">5つ選んでください</span></div>
     <div class="two-col">
-      <div class="choice-item"><input type="checkbox" id="ic1" name="idealcharacter" value="優しい"><label for="ic1">優しい</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic2" name="idealcharacter" value="面白い"><label for="ic2">面白い</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic3" name="idealcharacter" value="明るい"><label for="ic3">明るい</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic4" name="idealcharacter" value="知的"><label for="ic4">知的</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic5" name="idealcharacter" value="誠実"><label for="ic5">誠実</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic6" name="idealcharacter" value="落ち着きがある"><label for="ic6">落ち着きがある</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic7" name="idealcharacter" value="情熱的"><label for="ic7">情熱的</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic8" name="idealcharacter" value="聞き上手"><label for="ic8">聞き上手</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic9" name="idealcharacter" value="天然"><label for="ic9">天然</label></div>
-      <div class="choice-item"><input type="checkbox" id="ic10" name="idealcharacter" value="こだわらない"><label for="ic10">こだわらない</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic1" name="idealcharacter" value="誠実" onchange="checkLimit('idealcharacter',5)"><label for="ic1">誠実</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic2" name="idealcharacter" value="好奇心旺盛" onchange="checkLimit('idealcharacter',5)"><label for="ic2">好奇心旺盛</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic3" name="idealcharacter" value="ポジティブ" onchange="checkLimit('idealcharacter',5)"><label for="ic3">ポジティブ</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic4" name="idealcharacter" value="仕事好き" onchange="checkLimit('idealcharacter',5)"><label for="ic4">仕事好き</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic5" name="idealcharacter" value="知的" onchange="checkLimit('idealcharacter',5)"><label for="ic5">知的</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic6" name="idealcharacter" value="オシャレ好き" onchange="checkLimit('idealcharacter',5)"><label for="ic6">オシャレ好き</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic7" name="idealcharacter" value="甘え上手" onchange="checkLimit('idealcharacter',5)"><label for="ic7">甘え上手</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic8" name="idealcharacter" value="リード力がある" onchange="checkLimit('idealcharacter',5)"><label for="ic8">リード力がある</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic9" name="idealcharacter" value="聞き上手" onchange="checkLimit('idealcharacter',5)"><label for="ic9">聞き上手</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic10" name="idealcharacter" value="話し上手" onchange="checkLimit('idealcharacter',5)"><label for="ic10">話し上手</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic11" name="idealcharacter" value="癒し系" onchange="checkLimit('idealcharacter',5)"><label for="ic11">癒し系</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic12" name="idealcharacter" value="情熱的" onchange="checkLimit('idealcharacter',5)"><label for="ic12">情熱的</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic13" name="idealcharacter" value="天然" onchange="checkLimit('idealcharacter',5)"><label for="ic13">天然</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic14" name="idealcharacter" value="しっかり者" onchange="checkLimit('idealcharacter',5)"><label for="ic14">しっかり者</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic15" name="idealcharacter" value="穏やか" onchange="checkLimit('idealcharacter',5)"><label for="ic15">穏やか</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic16" name="idealcharacter" value="明るい" onchange="checkLimit('idealcharacter',5)"><label for="ic16">明るい</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic17" name="idealcharacter" value="マイペース" onchange="checkLimit('idealcharacter',5)"><label for="ic17">マイペース</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic18" name="idealcharacter" value="積極的" onchange="checkLimit('idealcharacter',5)"><label for="ic18">積極的</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic19" name="idealcharacter" value="気前がいい" onchange="checkLimit('idealcharacter',5)"><label for="ic19">気前がいい</label></div>
+      <div class="choice-item"><input type="checkbox" id="ic20" name="idealcharacter" value="面白い" onchange="checkLimit('idealcharacter',5)"><label for="ic20">面白い</label></div>
     </div>
+    <p class="helper" id="idealcharacter-count" style="margin-top:10px;text-align:center">0 / 5 選択中</p>
   </div>
 
   <div class="section" style="animation-delay:1.4s">
@@ -722,6 +768,25 @@ window.addEventListener('DOMContentLoaded', () => {
   dualRange('age');
   dualRange('height');
 });
+
+function checkLimit(name, max) {
+  const checked = [...document.querySelectorAll(`input[name="${name}"]:checked`)];
+  const all = [...document.querySelectorAll(`input[name="${name}"]`)];
+  const count = checked.length;
+  // カウント表示更新
+  const countEl = document.getElementById(name + '-count');
+  const countElF = document.getElementById(name + '-count-f');
+  if (countEl) countEl.textContent = count + ' / ' + max + ' 選択中';
+  if (countElF) countElF.textContent = count + ' / ' + max + ' 選択中';
+  // 上限に達したら未選択のものをdisable
+  all.forEach(el => {
+    if (!el.checked) {
+      el.disabled = count >= max;
+      el.nextElementSibling.style.opacity = count >= max ? '0.4' : '1';
+      el.nextElementSibling.style.cursor = count >= max ? 'not-allowed' : 'pointer';
+    }
+  });
+}
 
 function calcAge() {
   const y = document.getElementById('birthYear').value;
