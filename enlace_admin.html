@@ -137,7 +137,7 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
     <div class="stat-card">
       <div class="stat-label">高相性ペア</div>
       <div class="stat-value" id="statPairs" style="color:var(--green)">—</div>
-      <div class="stat-sub">組（70点以上）</div>
+      <div class="stat-sub">組（120点以上）</div>
     </div>
   </div>
 
@@ -156,9 +156,9 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
           <tr>
             <th>男性</th>
             <th>女性</th>
-            <th>相性スコア（70点）</th>
-            <th>優先条件スコア（30点）</th>
-            <th>総合（100点）</th>
+            <th>男→女スコア</th>
+            <th>女→男スコア</th>
+            <th>総合（平均）</th>
             <th>判定</th>
             <th></th>
           </tr>
@@ -213,19 +213,15 @@ function incomeToNum(str) {
   return map[str] || -1;
 }
 
-// 希望年収の最低ラインを数値に変換
 function idealIncomeToNum(str) {
   if (!str || str === 'こだわらない') return 0;
   const map = { '300万以上': 300, '400万以上': 400, '500万以上': 500, '600万以上': 600, '800万以上': 800, '1000万以上': 1000 };
   return map[str] || 0;
 }
 
-// 12項目の相性スコア（各約5.83点、合計70点）
-function calcCompatScore(viewer, target) {
-  const BASE = 70 / 12;
-  let details = {};
-
-  // ①性格（補完型15点・類似型10点、5個固定）
+// 各項目の達成率（0〜1）を計算
+function calcItemRates(viewer, target) {
+  // 性格
   const vChar = (viewer['性格'] || '').split(',').map(s => s.trim()).filter(Boolean);
   const tChar = (target['性格'] || '').split(',').map(s => s.trim()).filter(Boolean);
   let charScore = 0;
@@ -233,202 +229,142 @@ function calcCompatScore(viewer, target) {
     if (SIMILAR_TYPES.includes(c) && tChar.includes(c)) charScore += 10;
     else {
       const pair = COMPLEMENT_PAIRS.find(p => p.includes(c));
-      if (pair) {
-        const comp = pair[0] === c ? pair[1] : pair[0];
-        if (tChar.includes(comp)) charScore += 15;
-      }
+      if (pair) { const comp = pair[0] === c ? pair[1] : pair[0]; if (tChar.includes(comp)) charScore += 15; }
     }
   });
   const charRate = Math.min(1, charScore / 75);
-  details['性格'] = { score: charRate * BASE, rate: charRate, boosted: false };
 
-  // ②趣味（3個固定）
+  // 趣味（1個でも合致で満点）
   const vHobby = (viewer['趣味'] || '').split(',').map(s => s.trim()).filter(Boolean);
   const tHobby = (target['趣味'] || '').split(',').map(s => s.trim()).filter(Boolean);
-  const hobbyMatch = vHobby.filter(h => tHobby.includes(h)).length;
-  const hobbyRate = hobbyMatch >= 1 ? 1 : 0;
-  details['趣味'] = { score: hobbyRate * BASE, rate: hobbyRate, boosted: false };
+  const hobbyRate = vHobby.filter(h => tHobby.includes(h)).length >= 1 ? 1 : 0;
 
-  // ③顔タイプ
+  // 顔タイプ
   const vFaceType = viewer['希望顔タイプ'] || '';
   const tFaceType = target['顔タイプ'] || '';
   const faceTypeRate = (vFaceType === 'こだわらない' || (vFaceType && tFaceType === vFaceType)) ? 1 : 0;
-  details['顔タイプ'] = { score: faceTypeRate * BASE, rate: faceTypeRate, boosted: false };
 
-  // ④顔の特徴（3個固定）
+  // 顔の特徴（3個中の合致率）
   const vFace = (viewer['希望顔の特徴'] || '').split(',').map(s => s.trim()).filter(Boolean);
   const tFace = (target['顔の特徴'] || '').split(',').map(s => s.trim()).filter(Boolean);
-  const faceMatch = vFace.length > 0 ? vFace.filter(f => tFace.includes(f)).length / Math.min(vFace.length, 3) : 0;
-  details['顔の特徴'] = { score: faceMatch * BASE, rate: faceMatch, boosted: false };
+  const faceRate = vFace.length > 0 ? vFace.filter(f => tFace.includes(f)).length / Math.min(vFace.length, 3) : 0;
 
-  // ⑤体形
+  // 体形
   const vBody = (viewer['希望体形'] || '').split(',').map(s => s.trim()).filter(Boolean);
   const tBody = target['体形'] || '';
   const bodyRate = (vBody.includes('こだわらない') || vBody.some(b => tBody.includes(b))) ? 1 : 0;
-  details['体形'] = { score: bodyRate * BASE, rate: bodyRate, boosted: false };
 
-  // ⑥結婚意思
+  // 結婚意思
   const vMarriage = viewer['結婚意思'] || '';
   const tMarriage = target['結婚意思'] || '';
   const marriageRate = vMarriage === tMarriage ? 1 : (vMarriage === 'こだわらない' || tMarriage === 'こだわらない') ? 0.5 : 0;
-  details['結婚意思'] = { score: marriageRate * BASE, rate: marriageRate, boosted: false };
 
-  // ⑦年齢
+  // 年齢
   const tAge = parseInt(target['年齢']) || 0;
   const vAgeMin = parseInt(viewer['希望年齢下限']) || 0;
   const vAgeMax = parseInt(viewer['希望年齢上限']) || 99;
   const ageRate = (tAge >= vAgeMin && tAge <= vAgeMax) ? 1 : 0;
-  details['年齢'] = { score: ageRate * BASE, rate: ageRate, boosted: false };
 
-  // ⑧身長
+  // 身長
   const tHeight = parseInt(target['身長']) || 0;
   const vHeightMin = parseInt(viewer['希望身長下限']) || 0;
   const vHeightMax = parseInt(viewer['希望身長上限']) || 999;
   const heightRate = (tHeight >= vHeightMin && tHeight <= vHeightMax) ? 1 : 0;
-  details['身長'] = { score: heightRate * BASE, rate: heightRate, boosted: false };
 
-  // ⑨お酒
+  // お酒
   const vAlcohol = viewer['希望お酒'] || '';
   const tAlcohol = target['お酒'] || '';
   let alcoholRate = 0;
   if (vAlcohol === 'こだわらない') alcoholRate = 1;
   else if (vAlcohol === '飲まない人がいい' && tAlcohol === '飲まない') alcoholRate = 1;
   else if (vAlcohol === '一緒に飲みたい' && (tAlcohol === 'たまに飲む' || tAlcohol === 'よく飲む')) alcoholRate = 1;
-  details['お酒'] = { score: alcoholRate * BASE, rate: alcoholRate, boosted: false };
 
-  // ⑩タバコ
+  // タバコ
   const vTobacco = viewer['希望タバコ'] || '';
   const tTobacco = target['タバコ'] || '';
   const tobaccoRate = (vTobacco === 'こだわらない' || (vTobacco.includes('吸わない') && tTobacco === '吸わない')) ? 1 : 0;
-  details['タバコ'] = { score: tobaccoRate * BASE, rate: tobaccoRate, boosted: false };
 
-  // ⑪学歴
+  // 学歴
   const vEdu = viewer['学歴へのこだわり'] || '';
   const tEdu = target['最終学歴'] || '';
   let eduRate = 0;
   if (vEdu === 'こだわらない') eduRate = 1;
   else if (vEdu === '大卒以上希望' && (tEdu === '大学卒' || tEdu === '大学院卒')) eduRate = 1;
-  details['学歴'] = { score: eduRate * BASE, rate: eduRate, boosted: false };
 
-  // ⑫収入
+  // 収入
   const vIncome = idealIncomeToNum(viewer['希望年収'] || '');
   const tIncome = incomeToNum(target['年収'] || '');
   let incomeRate = 0;
   if (vIncome === 0) incomeRate = 1;
   else if (tIncome === -1) incomeRate = 0;
   else if (tIncome >= vIncome) incomeRate = 1;
-  details['収入'] = { score: incomeRate * BASE, rate: incomeRate, boosted: false };
 
-  // 優先条件の倍率適用
-  const priorityMap = {
-    '顔・見た目': ['顔タイプ', '顔の特徴', '体形'],
-    '性格・人柄': ['性格'],
-    '価値観の一致': ['結婚意思', 'お酒', 'タバコ'],
-    '趣味・共通の話題': ['趣味'],
-    '結婚への真剣さ': ['結婚意思'],
-    '収入・安定性': ['収入'],
-    '学歴・知性': ['学歴'],
-    '年齢': ['年齢'],
-    '誠実さ・信頼感': ['性格'],
-  };
-
-  const priorities = [
-    { key: viewer['重視条件1位'] || '', mult: 1 + (15 / 70), label: '1位' },
-    { key: viewer['重視条件2位'] || '', mult: 1 + (10 / 70), label: '2位' },
-    { key: viewer['重視条件3位'] || '', mult: 1 + (5 / 70), label: '3位' },
-  ];
-
-  priorities.forEach(({ key, mult, label }) => {
-    const targets = priorityMap[key] || [];
-    targets.forEach(t => {
-      if (details[t]) {
-        details[t].score *= mult;
-        details[t].boosted = true;
-        details[t].boostLabel = label;
-      }
-    });
-  });
-
-  // 合計（最大70点に正規化）
-  let total = Object.values(details).reduce((sum, d) => sum + d.score, 0);
-  // 倍率で70点を超える可能性があるので正規化
-  const maxPossible = BASE * 12 + (15 + 10 + 5);
-  total = Math.min(70, total * 70 / maxPossible);
-
-  return { total: Math.round(total), details };
+  return { charRate, hobbyRate, faceTypeRate, faceRate, bodyRate, marriageRate, ageRate, heightRate, alcoholRate, tobaccoRate, eduRate, incomeRate };
 }
 
-// 優先条件スコア（30点満点）
-function calcPriorityScore(viewer, target) {
+// 総合スコア計算（満点約150点）
+function calcTotalScore(viewer, target) {
+  const rates = calcItemRates(viewer, target);
+  const lookImportance = parseInt(viewer['容姿重要度']) || 3;
+  const lookMult = [1, 1, 1.1, 1.2, 1.35, 1.5][lookImportance] || 1;
+
+  // 優先条件マッピング
   const priorityMap = {
-    '顔・見た目': () => {
-      const ftR = (viewer['希望顔タイプ'] === 'こだわらない' || target['顔タイプ'] === viewer['希望顔タイプ']) ? 1 : 0;
-      const vFace = (viewer['希望顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-      const tFace = (target['顔の特徴'] || '').split(',').map(s=>s.trim()).filter(Boolean);
-      const ffR = vFace.length > 0 ? vFace.filter(f=>tFace.includes(f)).length / Math.min(vFace.length,3) : 0;
-      const vBody = (viewer['希望体形']||'').split(',').map(s=>s.trim()).filter(Boolean);
-      const bR = (vBody.includes('こだわらない') || vBody.some(b=>target['体形']?.includes(b))) ? 1 : 0;
-      return (ftR + ffR + bR) / 3;
-    },
-    '性格・人柄': () => {
-      const vChar = (viewer['性格']||'').split(',').map(s=>s.trim()).filter(Boolean);
-      const tChar = (target['性格']||'').split(',').map(s=>s.trim()).filter(Boolean);
-      let s = 0;
-      vChar.forEach(c => {
-        if (SIMILAR_TYPES.includes(c) && tChar.includes(c)) s += 10;
-        else { const p = COMPLEMENT_PAIRS.find(p=>p.includes(c)); if(p) { const comp=p[0]===c?p[1]:p[0]; if(tChar.includes(comp)) s+=15; } }
-      });
-      return Math.min(1, s/75);
-    },
-    '価値観の一致': () => {
-      const mR = viewer['結婚意思'] === target['結婚意思'] ? 1 : 0.5;
-      const vA = viewer['希望お酒']||''; const tA = target['お酒']||'';
-      const aR = vA==='こだわらない'?1:(vA.includes('飲まない')&&tA==='飲まない')?1:(vA.includes('飲みたい')&&tA!=='飲まない')?1:0;
-      const vT = viewer['希望タバコ']||''; const tT = target['タバコ']||'';
-      const tR = vT==='こだわらない'?1:(vT.includes('吸わない')&&tT==='吸わない')?1:0;
-      return (mR + aR + tR) / 3;
-    },
-    '趣味・共通の話題': () => {
-      const vH=(viewer['趣味']||'').split(',').map(s=>s.trim()).filter(Boolean);
-      const tH=(target['趣味']||'').split(',').map(s=>s.trim()).filter(Boolean);
-      return vH.filter(h=>tH.includes(h)).length/3;
-    },
-    '結婚への真剣さ': () => viewer['結婚意思']===target['結婚意思']?1:0,
-    '収入・安定性': () => {
-      const vi=idealIncomeToNum(viewer['希望年収']||''); const ti=incomeToNum(target['年収']||'');
-      if(vi===0) return 1; if(ti===-1) return 0; return ti>=vi?1:0;
-    },
-    '学歴・知性': () => {
-      const ve=viewer['学歴へのこだわり']||''; const te=target['最終学歴']||'';
-      if(ve==='こだわらない') return 1;
-      return (ve==='大卒以上希望'&&(te==='大学卒'||te==='大学院卒'))?1:0;
-    },
-    '年齢': () => {
-      const ta=parseInt(target['年齢'])||0;
-      const min=parseInt(viewer['希望年齢下限'])||0; const max=parseInt(viewer['希望年齢上限'])||99;
-      return (ta>=min&&ta<=max)?1:0;
-    },
-    '誠実さ・信頼感': () => (target['性格']||'').includes('誠実')?1:0,
+    '顔・見た目': ['faceTypeRate', 'faceRate', 'bodyRate'],
+    '性格・人柄': ['charRate'],
+    '価値観の一致': ['marriageRate', 'alcoholRate', 'tobaccoRate'],
+    '趣味・共通の話題': ['hobbyRate'],
+    '結婚への真剣さ': ['marriageRate'],
+    '収入・安定性': ['incomeRate'],
+    '学歴・知性': ['eduRate'],
+    '年齢': ['ageRate'],
+    '誠実さ・信頼感': ['charRate'],
   };
 
   const p1 = viewer['重視条件1位'] || '';
   const p2 = viewer['重視条件2位'] || '';
   const p3 = viewer['重視条件3位'] || '';
+  const boosted1 = priorityMap[p1] || [];
+  const boosted2 = priorityMap[p2] || [];
+  const boosted3 = priorityMap[p3] || [];
 
-  const r1 = priorityMap[p1] ? priorityMap[p1]() : 0;
-  const r2 = priorityMap[p2] ? priorityMap[p2]() : 0;
-  const r3 = priorityMap[p3] ? priorityMap[p3]() : 0;
+  // 各項目のスコア計算
+  const items = [
+    { key: 'charRate', label: '性格', isAppearance: false },
+    { key: 'hobbyRate', label: '趣味', isAppearance: false },
+    { key: 'faceTypeRate', label: '顔タイプ', isAppearance: true },
+    { key: 'faceRate', label: '顔の特徴', isAppearance: true },
+    { key: 'bodyRate', label: '体形', isAppearance: true },
+    { key: 'marriageRate', label: '結婚意思', isAppearance: false },
+    { key: 'ageRate', label: '年齢', isAppearance: false },
+    { key: 'heightRate', label: '身長', isAppearance: false },
+    { key: 'alcoholRate', label: 'お酒', isAppearance: false },
+    { key: 'tobaccoRate', label: 'タバコ', isAppearance: false },
+    { key: 'eduRate', label: '学歴', isAppearance: false },
+    { key: 'incomeRate', label: '収入', isAppearance: false },
+  ];
 
-  const score = Math.round(r1 * 15 + r2 * 10 + r3 * 5);
+  let totalScore = 0;
+  let details = {};
 
-  return {
-    total: score,
-    details: [
-      { label: `1位「${p1||'未選択'}」`, rate: r1, score: Math.round(r1*15), max: 15 },
-      { label: `2位「${p2||'未選択'}」`, rate: r2, score: Math.round(r2*10), max: 10 },
-      { label: `3位「${p3||'未選択'}」`, rate: r3, score: Math.round(r3*5), max: 5 },
-    ]
-  };
+  items.forEach(item => {
+    const rate = rates[item.key];
+    let base = 10;
+    // 容姿重要度の加算
+    if (item.isAppearance) base *= lookMult;
+    // 優先条件倍率
+    let mult = 1;
+    let boostLabel = '';
+    if (boosted1.includes(item.key)) { mult = 3; boostLabel = '1位×3'; }
+    else if (boosted2.includes(item.key)) { mult = 2; boostLabel = '2位×2'; }
+    else if (boosted3.includes(item.key)) { mult = 1.5; boostLabel = '3位×1.5'; }
+
+    const score = rate * base * mult;
+    totalScore += score;
+    details[item.label] = { score: Math.round(score * 10) / 10, rate, boosted: mult > 1, boostLabel, base: Math.round(base * 10) / 10 };
+  });
+
+  return { total: Math.round(totalScore), details };
 }
 
 function switchTab(tab) {
@@ -463,18 +399,14 @@ function renderAll() {
   scores = [];
   males.forEach(m => {
     females.forEach(f => {
-      const mCompat = calcCompatScore(m, f);
-      const fCompat = calcCompatScore(f, m);
-      const mPriority = calcPriorityScore(m, f);
-      const fPriority = calcPriorityScore(f, m);
-      const compatTotal = Math.round((mCompat.total + fCompat.total) / 2);
-      const priorityTotal = Math.round((mPriority.total + fPriority.total) / 2);
-      const total = compatTotal + priorityTotal;
-      scores.push({ male: m, female: f, mCompat, fCompat, mPriority, fPriority, compatTotal, priorityTotal, total });
+      const mScore = calcTotalScore(m, f);
+      const fScore = calcTotalScore(f, m);
+      const total = Math.round((mScore.total + fScore.total) / 2);
+      scores.push({ male: m, female: f, mScore, fScore, total });
     });
   });
   scores.sort((a,b) => b.total - a.total);
-  document.getElementById('statPairs').textContent = scores.filter(s => s.total >= 70).length;
+  document.getElementById('statPairs').textContent = scores.filter(s => s.total >= 120).length;
 
   renderParticipants();
   renderScores();
@@ -505,27 +437,29 @@ function renderParticipants() {
 
 function renderScores() {
   const tbody = document.getElementById('scoreTableBody');
-  if (!scores.length) { tbody.innerHTML = '<tr><td colspan="7" class="empty">男女両方の回答が必要です</td></tr>'; return; }
+  if (!scores.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty">男女両方の回答が必要です</td></tr>'; return; }
   tbody.innerHTML = scores.map((s,i) => {
-    const badge = s.total>=70?'<span class="badge high">🔥 高相性</span>':s.total>=55?'<span class="badge mid">◎ 良好</span>':s.total>=40?'<span class="badge low">△ 普通</span>':'<span style="color:var(--muted);font-size:12px">— 普通以下</span>';
+    const badge = s.total>=120?'<span class="badge high">🔥 高相性</span>':s.total>=90?'<span class="badge mid">◎ 良好</span>':s.total>=60?'<span class="badge low">△ 普通</span>':'<span style="color:var(--muted);font-size:12px">—</span>';
     return `<tr onclick="toggleDetail(${i})">
       <td>${s.male['ニックネーム']||s.male['姓']||'—'}</td>
       <td>${s.female['ニックネーム']||s.female['姓']||'—'}</td>
       <td>
         <div class="score-bar">
-          <div class="score-bar-track"><div class="score-bar-fill compat" style="width:${s.compatTotal/70*100}%"></div></div>
-          <div class="score-num" style="color:var(--blue)">${s.compatTotal}</div>
+          <div class="score-bar-track"><div class="score-bar-fill compat" style="width:${Math.min(100,s.mScore.total/1.5)}%"></div></div>
+          <div class="score-num" style="color:var(--blue)">${s.mScore.total}</div>
         </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">男→女</div>
       </td>
       <td>
         <div class="score-bar">
-          <div class="score-bar-track"><div class="score-bar-fill priority" style="width:${s.priorityTotal/30*100}%"></div></div>
-          <div class="score-num" style="color:var(--rose)">${s.priorityTotal}</div>
+          <div class="score-bar-track"><div class="score-bar-fill priority" style="width:${Math.min(100,s.fScore.total/1.5)}%"></div></div>
+          <div class="score-num" style="color:var(--rose)">${s.fScore.total}</div>
         </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:2px">女→男</div>
       </td>
       <td>
         <div class="score-bar">
-          <div class="score-bar-track"><div class="score-bar-fill total" style="width:${s.total}%"></div></div>
+          <div class="score-bar-track"><div class="score-bar-fill total" style="width:${Math.min(100,s.total/1.5)}%"></div></div>
           <div class="score-num" style="color:var(--green)">${s.total}</div>
         </div>
       </td>
@@ -536,26 +470,19 @@ function renderScores() {
       <td colspan="7">
         <div class="detail-box">
           <div class="detail-section">
-            <div class="detail-title">相性スコア内訳（男性→女性）</div>
-            ${Object.entries(s.mCompat.details).map(([k,v])=>`
+            <div class="detail-title">スコア内訳（男性→女性） ${s.mScore.total}点</div>
+            ${Object.entries(s.mScore.details).map(([k,v])=>`
               <div class="detail-item">
-                <span class="detail-item-label">${k}${v.boosted?` <span style="color:var(--rose);font-size:10px">${v.boostLabel}↑</span>`:''}</span>
-                <span class="detail-item-score ${v.boosted?'boosted':''}">${Math.round(v.score*10)/10}pt</span>
+                <span class="detail-item-label">${k}${v.boosted?` <span style="color:var(--rose);font-size:10px">[${v.boostLabel}]</span>`:''}</span>
+                <span class="detail-item-score ${v.boosted?'boosted':''}">${v.score}pt</span>
               </div>`).join('')}
           </div>
           <div class="detail-section">
-            <div class="detail-title">優先条件スコア内訳</div>
-            <div style="margin-bottom:8px;font-size:11px;color:var(--muted)">男性の優先条件</div>
-            ${s.mPriority.details.map(d=>`
+            <div class="detail-title">スコア内訳（女性→男性） ${s.fScore.total}点</div>
+            ${Object.entries(s.fScore.details).map(([k,v])=>`
               <div class="detail-item">
-                <span class="detail-item-label">${d.label}</span>
-                <span class="detail-item-score">${d.score}/${d.max}pt</span>
-              </div>`).join('')}
-            <div style="margin:8px 0;font-size:11px;color:var(--muted)">女性の優先条件</div>
-            ${s.fPriority.details.map(d=>`
-              <div class="detail-item">
-                <span class="detail-item-label">${d.label}</span>
-                <span class="detail-item-score">${d.score}/${d.max}pt</span>
+                <span class="detail-item-label">${k}${v.boosted?` <span style="color:var(--rose);font-size:10px">[${v.boostLabel}]</span>`:''}</span>
+                <span class="detail-item-score ${v.boosted?'boosted':''}">${v.score}pt</span>
               </div>`).join('')}
           </div>
         </div>
@@ -594,9 +521,9 @@ function renderMatching() {
             <div class="match-pair">
               <div class="match-person">
                 <div class="match-person-name">${i+1}. ${s.female['ニックネーム']||s.female['姓']||'—'}</div>
-                <div class="match-person-sub">相性:${s.compatTotal}点 優先:${s.priorityTotal}点</div>
+                <div class="match-person-sub">男→女:${s.mScore.total}点 女→男:${s.fScore.total}点</div>
               </div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=55?'var(--amber)':'var(--muted)'}">${s.total}</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=120?'var(--green)':s.total>=90?'var(--amber)':'var(--muted)'}">${s.total}</div>
             </div>`).join('')}
         </div>`).join('')}
     </div>
@@ -609,9 +536,9 @@ function renderMatching() {
             <div class="match-pair">
               <div class="match-person">
                 <div class="match-person-name">${i+1}. ${s.male['ニックネーム']||s.male['姓']||'—'}</div>
-                <div class="match-person-sub">相性:${s.compatTotal}点 優先:${s.priorityTotal}点</div>
+                <div class="match-person-sub">男→女:${s.mScore.total}点 女→男:${s.fScore.total}点</div>
               </div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=70?'var(--green)':s.total>=55?'var(--amber)':'var(--muted)'}">${s.total}</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=120?'var(--green)':s.total>=90?'var(--amber)':'var(--muted)'}">${s.total}</div>
             </div>`).join('')}
         </div>`).join('')}
     </div>`;
