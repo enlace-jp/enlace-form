@@ -299,7 +299,20 @@ function calcItemRates(viewer, target) {
   else if (tIncome === -1) incomeRate = 0;
   else if (tIncome >= vIncome) incomeRate = 1;
 
-  return { charRate, hobbyRate, faceTypeRate, faceRate, bodyRate, marriageRate, ageRate, heightRate, alcoholRate, tobaccoRate, eduRate, incomeRate };
+  // 休日・生活リズム
+  const vHoliday = viewer['休日'] || '';
+  const tHoliday = target['休日'] || '';
+  // 完全一致→100%、休日だけ一致→50%、不一致→0%
+  let holidayRate = 0;
+  if (vHoliday === tHoliday) {
+    holidayRate = 1;
+  } else {
+    const vBase = vHoliday.replace('（朝型）','').replace('（夜型）','');
+    const tBase = tHoliday.replace('（朝型）','').replace('（夜型）','');
+    if (vBase === tBase) holidayRate = 0.5;
+  }
+
+  return { charRate, hobbyRate, faceTypeRate, faceRate, bodyRate, marriageRate, ageRate, heightRate, alcoholRate, tobaccoRate, eduRate, incomeRate, holidayRate };
 }
 
 // 総合スコア計算（満点約150点）
@@ -317,7 +330,7 @@ function calcTotalScore(viewer, target) {
     '収入・安定性': ['incomeRate'],
     '学歴・知性': ['eduRate'],
     '年齢': ['ageRate'],
-    '誠実さ・信頼感': ['charRate'],
+    '生活リズムの一致': ['holidayRate'],
   };
 
   const p1 = viewer['重視条件1位'] || '';
@@ -341,6 +354,7 @@ function calcTotalScore(viewer, target) {
     { key: 'tobaccoRate', label: 'タバコ', isAppearance: false },
     { key: 'eduRate', label: '学歴', isAppearance: false },
     { key: 'incomeRate', label: '収入', isAppearance: false },
+    { key: 'holidayRate', label: '休日', isAppearance: false },
   ];
 
   let totalScore = 0;
