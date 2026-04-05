@@ -137,7 +137,7 @@ body { background:var(--bg); color:var(--cream); font-family:'Zen Kaku Gothic Ne
     <div class="stat-card">
       <div class="stat-label">高相性ペア</div>
       <div class="stat-value" id="statPairs" style="color:var(--green)">—</div>
-      <div class="stat-sub">組（120点以上）</div>
+      <div class="stat-sub">組（110点以上）</div>
     </div>
   </div>
 
@@ -406,7 +406,7 @@ function renderAll() {
     });
   });
   scores.sort((a,b) => b.total - a.total);
-  document.getElementById('statPairs').textContent = scores.filter(s => s.total >= 120).length;
+  document.getElementById('statPairs').textContent = scores.filter(s => s.total >= 110).length;
 
   renderParticipants();
   renderScores();
@@ -439,7 +439,7 @@ function renderScores() {
   const tbody = document.getElementById('scoreTableBody');
   if (!scores.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty">男女両方の回答が必要です</td></tr>'; return; }
   tbody.innerHTML = scores.map((s,i) => {
-    const badge = s.total>=120?'<span class="badge high">🔥 高相性</span>':s.total>=90?'<span class="badge mid">◎ 良好</span>':s.total>=60?'<span class="badge low">△ 普通</span>':'<span style="color:var(--muted);font-size:12px">—</span>';
+    const badge = s.total>=135?'<span class="badge" style="background:rgba(180,130,255,0.15);color:#b482ff">💫 運命</span>':s.total>=110?'<span class="badge high">🔥 高相性</span>':s.total>=85?'<span class="badge mid">◎ 良好</span>':s.total>=60?'<span class="badge low">△ 普通</span>':'<span style="color:var(--muted);font-size:12px">—</span>';
     return `<tr onclick="toggleDetail(${i})">
       <td>${s.male['ニックネーム']||s.male['姓']||'—'}</td>
       <td>${s.female['ニックネーム']||s.female['姓']||'—'}</td>
@@ -523,7 +523,7 @@ function renderMatching() {
                 <div class="match-person-name">${i+1}. ${s.female['ニックネーム']||s.female['姓']||'—'}</div>
                 <div class="match-person-sub">男→女:${s.mScore.total}点 女→男:${s.fScore.total}点</div>
               </div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=120?'var(--green)':s.total>=90?'var(--amber)':'var(--muted)'}">${s.total}</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=135?'#b482ff':s.total>=110?'var(--green)':s.total>=85?'var(--amber)':'var(--muted)'}">${s.total}</div>
             </div>`).join('')}
         </div>`).join('')}
     </div>
@@ -538,7 +538,7 @@ function renderMatching() {
                 <div class="match-person-name">${i+1}. ${s.male['ニックネーム']||s.male['姓']||'—'}</div>
                 <div class="match-person-sub">男→女:${s.mScore.total}点 女→男:${s.fScore.total}点</div>
               </div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=120?'var(--green)':s.total>=90?'var(--amber)':'var(--muted)'}">${s.total}</div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:${s.total>=135?'#b482ff':s.total>=110?'var(--green)':s.total>=85?'var(--amber)':'var(--muted)'}">${s.total}</div>
             </div>`).join('')}
         </div>`).join('')}
     </div>`;
