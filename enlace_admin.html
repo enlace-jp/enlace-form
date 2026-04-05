@@ -246,7 +246,7 @@ function calcCompatScore(viewer, target) {
   const vHobby = (viewer['趣味'] || '').split(',').map(s => s.trim()).filter(Boolean);
   const tHobby = (target['趣味'] || '').split(',').map(s => s.trim()).filter(Boolean);
   const hobbyMatch = vHobby.filter(h => tHobby.includes(h)).length;
-  const hobbyRate = hobbyMatch / 3;
+  const hobbyRate = hobbyMatch >= 1 ? 1 : 0;
   details['趣味'] = { score: hobbyRate * BASE, rate: hobbyRate, boosted: false };
 
   // ③顔タイプ
